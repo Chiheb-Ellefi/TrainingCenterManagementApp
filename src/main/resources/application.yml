@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: CenterManagement
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
+    password: password
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 9000
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+server:
+  port: 5000
