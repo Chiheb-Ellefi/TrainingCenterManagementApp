@@ -1,4 +1,4 @@
-package com.example.CenterManagement.entities;
+package com.example.CenterManagement.entities.training;
 
 import jakarta.persistence.Embeddable;
 

@@ -1,10 +1,18 @@
-package com.example.CenterManagement.entities;
+package com.example.CenterManagement.entities.training;
 
+import com.example.CenterManagement.entities.user.Trainer;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "trainings")
 @Timestamp

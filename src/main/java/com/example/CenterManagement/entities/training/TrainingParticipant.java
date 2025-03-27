@@ -1,15 +1,16 @@
-package com.example.CenterManagement.entities;
+package com.example.CenterManagement.entities.training;
 
+import com.example.CenterManagement.entities.user.Participant;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-
-@Setter
 @Getter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "training_participants")
-public class TrainingParticipants {
+public class TrainingParticipant {
 
     @EmbeddedId
     private TrainingParticipantsId id;
@@ -21,7 +22,7 @@ public class TrainingParticipants {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("participantId")
-    @JoinColumn(name = "participant_id", referencedColumnName = "userId")
-    private User participant;
+    @JoinColumn(name = "participant_id", referencedColumnName = "participantId")
+    private Participant participant;
 
 }

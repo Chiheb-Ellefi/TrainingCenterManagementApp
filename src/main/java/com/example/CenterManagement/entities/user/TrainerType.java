@@ -1,4 +1,4 @@
-package com.example.CenterManagement.entities;
+package com.example.CenterManagement.entities.user;
 
 public enum TrainerType {
     INTERNAL,
