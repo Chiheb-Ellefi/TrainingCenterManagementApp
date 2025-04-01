@@ -5,4 +5,6 @@ public enum Role {
     MANAGER,
     PARTICIPANT,
     TRAINER,
+
 }
+

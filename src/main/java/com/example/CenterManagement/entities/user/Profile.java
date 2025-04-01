@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequenceName = "profile_sequence",name = "profile_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long profileId;
     @Column(nullable = false,length = 100)
     private String profileType;

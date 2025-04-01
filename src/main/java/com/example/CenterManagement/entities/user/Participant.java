@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "participants")
 public class Participant {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "participant_seq",allocationSize = 1,sequenceName = "participant_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long participantId;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)

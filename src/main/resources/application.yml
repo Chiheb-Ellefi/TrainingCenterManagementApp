@@ -1,6 +1,7 @@
 spring:
   application:
     name: CenterManagement
+    offset: 10
   datasource:
     url: jdbc:postgresql://localhost:5432/test
     username: postgres
@@ -13,5 +14,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
+  security:
+    user:
+      name: user
+      password: user
 server:
   port: 5000

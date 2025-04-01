@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Structure {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequenceName = "structure_sequence",name = "structure_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long structureId;
     @Column(nullable = false,length = 100)
     private String structureName;

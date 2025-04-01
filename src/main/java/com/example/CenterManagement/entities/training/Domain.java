@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Domain {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "domain_seq", allocationSize = 1,sequenceName = "domain_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long domainId;
     @Column(nullable = false,length = 100)
     private String domainName;
