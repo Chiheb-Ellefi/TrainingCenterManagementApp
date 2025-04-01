@@ -58,8 +58,8 @@ public class ParticipantController {
                 .build();
        ParticipantDto participantDto=ParticipantDto.builder()
                .user(user)
-               .structure(data.getStructure().toUpperCase())
-               .profile(data.getProfile().toUpperCase())
+               .structure(data.getStructure())
+               .profile(data.getProfile())
                .build();
        participantService.createParticipant(participantDto);
        return new ResponseEntity<>("Participant saved successfully", HttpStatus.CREATED);
@@ -95,8 +95,8 @@ public class ParticipantController {
         ParticipantDto newParticipant=ParticipantDto.builder()
                 .participantId(participant.getParticipantId())
                 .user(newUser)
-                .structure(data.getStructure()!=null?data.getStructure().toUpperCase():participant.getStructure().toUpperCase())
-                .profile(data.getProfile()!=null?data.getProfile().toUpperCase():participant.getProfile().toUpperCase())
+                .structure(data.getStructure()!=null?data.getStructure():participant.getStructure())
+                .profile(data.getProfile()!=null?data.getProfile():participant.getProfile())
                 .build();
         participantService.updateParticipant(newParticipant);
         return new ResponseEntity<>("Participant updated successfully", HttpStatus.ACCEPTED);
