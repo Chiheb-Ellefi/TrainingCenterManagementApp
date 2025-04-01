@@ -16,6 +16,6 @@ public class Domain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long domainId;
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false,length = 100,unique = true)
     private String domainName;
 }

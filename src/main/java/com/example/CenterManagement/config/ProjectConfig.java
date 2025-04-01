@@ -12,7 +12,7 @@ public class ProjectConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for testing
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/users/**").permitAll() // Allow all user endpoints
+                        .requestMatchers("/api/v1/**").permitAll() // Allow all user endpoints
                         .anyRequest().authenticated() // Secure other endpoints
                 )
                 .formLogin(form -> form.disable()) // Disable login form

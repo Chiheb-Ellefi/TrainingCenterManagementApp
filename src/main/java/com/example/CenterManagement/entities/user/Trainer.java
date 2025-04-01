@@ -16,6 +16,7 @@ public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long trainerId;
+    private String employerName; //add the employer entity
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User user;

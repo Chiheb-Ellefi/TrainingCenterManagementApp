@@ -1,7 +1,10 @@
 package com.example.CenterManagement.controllers;
 
+import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.UserDto;
+import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.services.users.ParticipantService;
 import com.example.CenterManagement.services.users.UserService;
 import com.example.CenterManagement.utils.EnumsHelperMethods;
 import org.apache.coyote.BadRequestException;
@@ -16,9 +19,11 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
+    private final ParticipantService participantService;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ParticipantService participantService) {
         this.userService = userService;
+        this.participantService = participantService;
     }
 
     @GetMapping
@@ -37,11 +42,24 @@ public class UserController {
         if(wrongRequest){
             throw new BadRequestException("Invalid input data, please try again");
         }
+        if(userDto.getRole()== Role.PARTICIPANT){
+            ParticipantDto participantDto=ParticipantDto.builder()
+                    .user(userDto)
+                    .structure("NOT_DEFINED")
+                    .profile("NOT_DEFINED")
+                    .build();
+            participantService.createParticipant(participantDto);
+            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+        }
+        //AddTrainer
         UserDto response=userService.createUser(userDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     @PatchMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable Long userId) throws BadRequestException {
+        if(userId==null){
+            throw new BadRequestException("Invalid user Id, please try again");
+        }
         UserDto oldUser=userService.getUserById(userId);
         if(oldUser==null){
             throw new UserNotFoundException("No user found with id "+userId);

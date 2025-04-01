@@ -1,20 +1,14 @@
-package com.example.CenterManagement.dto.user;
+package com.example.CenterManagement.models;
 
 import com.example.CenterManagement.entities.user.Gender;
-import com.example.CenterManagement.entities.user.Role;
-import lombok.Builder;
+
 import lombok.Getter;
 
 import java.util.Date;
-
-@Builder
 @Getter
-public class UserDto {
-    private Long userId;
+public class ParticipantRequestData {
     private String username;
     private String email;
-    private String password;
-    private Role role;
     private Boolean isVerified;
     private String  phoneNumber;
     private String secondPhoneNumber;
@@ -22,6 +16,6 @@ public class UserDto {
     private Gender gender;
     private String profilePicture;
     private String description;
-
+    private String structure ;
+    private String profile;
 }
-
