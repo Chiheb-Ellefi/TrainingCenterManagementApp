@@ -1,4 +1,4 @@
-package com.example.CenterManagement.controllers;
+package com.example.CenterManagement.controllers.users;
 
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.UserDto;
@@ -25,8 +25,8 @@ public class ParticipantController {
 
     }
 @GetMapping
-    public ResponseEntity<List<ParticipantDto>> getAllParticipants() {
-        List<ParticipantDto> participants = participantService.getAllParticipants();
+    public ResponseEntity<List<ParticipantDto>> getAllParticipants(@RequestParam(required = false,defaultValue = "0") Integer page) {
+        List<ParticipantDto> participants = participantService.getAllParticipants(page);
         return new ResponseEntity<>(participants, HttpStatus.OK);
     }
     @GetMapping("/{id}")
@@ -107,7 +107,7 @@ public class ParticipantController {
             throw new BadRequestException("Provided participant id is null ");
         }
         participantService.deleteParticipant(id);
-        return new ResponseEntity<>("Participant deleted successfully", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Participant deleted successfully", HttpStatus.NO_CONTENT);
     }
 
 }

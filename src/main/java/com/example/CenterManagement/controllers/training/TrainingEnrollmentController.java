@@ -1,4 +1,4 @@
-package com.example.CenterManagement.controllers;
+package com.example.CenterManagement.controllers.training;
 
 import org.springframework.web.bind.annotation.RestController;
 

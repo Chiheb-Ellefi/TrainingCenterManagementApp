@@ -35,8 +35,8 @@ public class DomainService {
     }
     @Transactional
     public void deleteDomain(Long id) {
-        if(id == null || !domainRepository.existsById(id)) {
-            throw new IllegalArgumentException("Domain id cannot be null");
+        if( !domainRepository.existsById(id)) {
+            throw new IllegalArgumentException("Domain not found");
         }
         domainRepository.deleteById(id);
     }

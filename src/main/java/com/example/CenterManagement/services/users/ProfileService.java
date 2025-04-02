@@ -27,7 +27,7 @@ public class ProfileService {
     }
     @Transactional
     public void deleteProfileById(Long id) {
-        if(id==null || !profileRepository.existsById(id)) {
+        if( !profileRepository.existsById(id)) {
            throw  new IllegalArgumentException("Invalid profile id");
         }
         profileRepository.deleteById(id);

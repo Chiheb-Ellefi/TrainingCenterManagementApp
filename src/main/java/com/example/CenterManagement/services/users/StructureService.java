@@ -32,7 +32,7 @@ public class StructureService {
     }
     @Transactional
     public void deleteStructure(Long id) {
-        if(id == null || !structureRepository.existsById(id)) {
+        if( !structureRepository.existsById(id)) {
             throw new IllegalArgumentException("Structure Not Found");
         }
         structureRepository.deleteById(id);

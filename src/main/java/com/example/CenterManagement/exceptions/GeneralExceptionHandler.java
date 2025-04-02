@@ -32,6 +32,15 @@ public class GeneralExceptionHandler {
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(DomainNotFound.class)
+    public ResponseEntity<ErrorDetails> domainNotFoundHandler(DomainNotFound ex) {
+        ErrorDetails errorDetails = ErrorDetails.builder()
+                .message("Domain name does not exist")
+                .details(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorDetails> runtimeExceptionHandler(RuntimeException ex) {
 

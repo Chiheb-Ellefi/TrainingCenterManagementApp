@@ -1,4 +1,4 @@
-package com.example.CenterManagement.controllers;
+package com.example.CenterManagement.controllers.users;
 
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.UserDto;
@@ -87,7 +87,7 @@ public class UserController {
            throw new BadRequestException("The provided user id is null");
        }
        userService.deleteUser(userId);
-       return new ResponseEntity<>("User deleted successfully!",HttpStatus.ACCEPTED);
+       return new ResponseEntity<>("User deleted successfully!",HttpStatus.NO_CONTENT);
     }
 
 }

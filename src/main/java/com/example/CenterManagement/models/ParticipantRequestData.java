@@ -1,10 +1,9 @@
 package com.example.CenterManagement.models;
-
 import com.example.CenterManagement.entities.user.Gender;
-
 import lombok.Getter;
-
 import java.util.Date;
+
+
 @Getter
 public class ParticipantRequestData {
     private String username;

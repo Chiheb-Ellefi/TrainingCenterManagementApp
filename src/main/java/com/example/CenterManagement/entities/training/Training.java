@@ -1,18 +1,18 @@
 package com.example.CenterManagement.entities.training;
 
 import com.example.CenterManagement.entities.user.Trainer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Entity
 @Table(name = "trainings")
 @Timestamp
@@ -26,9 +26,9 @@ public class Training {
     private Date startDate;
     @Column(nullable = false)
     private Date endDate;
-    private Double description;
-    private String Domain;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private String description;
+    private String domainName;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "trainer_id", referencedColumnName = "trainerId", nullable = false)
     private Trainer trainer;
 }

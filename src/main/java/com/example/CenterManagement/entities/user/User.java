@@ -3,8 +3,7 @@ package com.example.CenterManagement.entities.user;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DialectOverride;
+
 
 import java.util.Date;
 

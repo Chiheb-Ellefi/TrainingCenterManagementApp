@@ -1,10 +1,20 @@
 package com.example.CenterManagement.services.training;
 
 import com.example.CenterManagement.dto.training.TrainingDto;
+import com.example.CenterManagement.entities.training.Training;
+import com.example.CenterManagement.entities.user.Trainer;
+import com.example.CenterManagement.exceptions.BadRequestException;
+import com.example.CenterManagement.exceptions.DomainNotFound;
+import com.example.CenterManagement.exceptions.UserNotFoundException;
 import com.example.CenterManagement.mappers.training.TrainingMapper;
+import com.example.CenterManagement.mappers.user.TrainerMapper;
+import com.example.CenterManagement.repositories.training.DomainRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
+import com.example.CenterManagement.repositories.users.TrainerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,27 +23,43 @@ import java.util.stream.Collectors;
 @Service
 public class TrainingService {
     private final TrainingRepository trainingRepository;
-
+    private  final TrainerRepository trainerRepository;
+    private final DomainRepository domainRepository;
+    @Value("${spring.application.offset}")
+    private int offset;
     @Autowired
-    TrainingService(TrainingRepository trainingRepository) {
+    TrainingService(TrainingRepository trainingRepository,  TrainerRepository trainerRepository, DomainRepository domainRepository) {
         this.trainingRepository = trainingRepository;
+        this.trainerRepository = trainerRepository;
+        this.domainRepository = domainRepository;
     }
-    public List<TrainingDto> getAllTrainings() {
-        return trainingRepository.findAll().stream().map(TrainingMapper::toDto).collect(Collectors.toList());
+    public List<TrainingDto> getAllTrainings(int page) {
+        return trainingRepository.findAll(PageRequest.of(page,offset)).stream().map(TrainingMapper::toDto).collect(Collectors.toList());
     }
     public TrainingDto getTrainingById(String id) {
         return TrainingMapper.toDto(trainingRepository.findById(id).orElseThrow(() -> new RuntimeException("Training not found")));
     }
-    public TrainingDto createTraining(TrainingDto trainingDto) {
-        return TrainingMapper.toDto(trainingRepository.save(TrainingMapper.toEntity(trainingDto)));
-    }
+
     @Transactional
-    public TrainingDto updateTrainingById( TrainingDto trainingDto) {
-        if(trainingDto.getTrainingId() == null || trainingRepository.existsById(trainingDto.getTrainingId())) {
-            throw new RuntimeException("Training id not found");
+    public TrainingDto createTraining(TrainingDto trainingDto, Long trainerId) {
+        if(domainRepository.getDomainByDomainName(trainingDto.getDomainName()) == null) {
+            throw new DomainNotFound("Domain name "+trainingDto.getDomainName()+" does not exist");
         }
-        return TrainingMapper.toDto(trainingRepository.save(TrainingMapper.toEntity(trainingDto)));
+        Trainer trainer = trainerRepository.findById(trainerId)
+                .orElseThrow(() -> new UserNotFoundException("Trainer not found with id: " + trainerId));
+        Training newTraining=Training.builder()
+                .domainName(trainingDto.getDomainName())
+                .trainingId(trainingDto.getTrainingId())
+                .title(trainingDto.getTitle())
+                .description(trainingDto.getDescription())
+                .startDate(trainingDto.getStartDate())
+                .endDate(trainingDto.getEndDate())
+                .trainer(trainer)
+                .build();
+        Training savedTraining = trainingRepository.save(newTraining);
+        return TrainingMapper.toDto(savedTraining);
     }
+
 
     public void deleteTrainingById(String id) {
         if (id == null || !trainingRepository.existsById(id)) {

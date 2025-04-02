@@ -7,6 +7,8 @@ import com.example.CenterManagement.mappers.user.ParticipantMapper;
 import com.example.CenterManagement.repositories.users.ParticipantRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class ParticipantService {
     private final ParticipantRepository participantRepository;
     private final UserService userService;
+    @Value("${spring.application.offset}")
+    private int offset;
     @Autowired
     public ParticipantService(ParticipantRepository participantRepository,UserService userService) {
         this.participantRepository = participantRepository;
@@ -27,8 +31,8 @@ public class ParticipantService {
        participant.setUser(savedUser);
         participantRepository.insertParticipant(participant.getUser().getUserId(), participant.getStructure(), participant.getProfile());
     }
-    public List<ParticipantDto> getAllParticipants() {
-        return participantRepository.findAll().stream().map(ParticipantMapper::toDto).collect(Collectors.toList());
+    public List<ParticipantDto> getAllParticipants(int page) {
+        return participantRepository.findAll(PageRequest.of(page,offset )).stream().map(ParticipantMapper::toDto).collect(Collectors.toList());
     }
     public ParticipantDto getParticipant(Long id) {
         return ParticipantMapper.toDto(participantRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Participant not found")));

@@ -9,6 +9,7 @@ public class TrainerMapper {
                 .trainerId(trainer.getTrainerId())
                 .user(UserMapper.toDto(trainer.getUser()))
                 .trainerType(trainer.getTrainerType())
+                .employerName(trainer.getEmployerName())
                 .build();
     }
     public static Trainer toEntity(TrainerDto trainerDto) {
@@ -16,6 +17,7 @@ public class TrainerMapper {
                 .trainerId(trainerDto.getTrainerId())
                 .user(UserMapper.toEntity(trainerDto.getUser()))
                 .trainerType(trainerDto.getTrainerType())
+                .employerName(trainerDto.getEmployerName())
                 .build();
     }
 }
