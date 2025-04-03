@@ -107,7 +107,7 @@ public class ParticipantController {
             throw new BadRequestException("Provided participant id is null ");
         }
         participantService.deleteParticipant(id);
-        return new ResponseEntity<>("Participant deleted successfully", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
 }

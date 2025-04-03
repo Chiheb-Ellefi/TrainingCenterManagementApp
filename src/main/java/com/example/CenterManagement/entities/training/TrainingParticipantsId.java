@@ -1,13 +1,28 @@
 package com.example.CenterManagement.entities.training;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+@Setter
+@Getter
 @Embeddable
 public class TrainingParticipantsId implements Serializable {
+
     private String trainingId;
     private Long participantId;
+
+
+
+    public TrainingParticipantsId() {}
+
+    public TrainingParticipantsId(String trainingId, Long participantId) {
+        this.trainingId = trainingId;
+        this.participantId = participantId;
+    }
 
     @Override
     public boolean equals(Object o) {

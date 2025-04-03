@@ -1,10 +1,16 @@
 package com.example.CenterManagement.controllers.users;
 
+import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
+import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
+import com.example.CenterManagement.entities.user.Trainer;
 import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.models.UserRequestData;
+import com.example.CenterManagement.services.training.TrainingEnrollmentService;
 import com.example.CenterManagement.services.users.ParticipantService;
+import com.example.CenterManagement.services.users.TrainerService;
 import com.example.CenterManagement.services.users.UserService;
 import com.example.CenterManagement.utils.EnumsHelperMethods;
 import org.apache.coyote.BadRequestException;
@@ -20,10 +26,14 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final ParticipantService participantService;
+    private final TrainerService trainerService;
+    private final TrainingEnrollmentService trainingEnrollmentService;
     @Autowired
-    public UserController(UserService userService, ParticipantService participantService) {
+    public UserController(UserService userService, ParticipantService participantService, TrainerService trainerService, TrainingEnrollmentService trainingEnrollmentService) {
         this.userService = userService;
         this.participantService = participantService;
+        this.trainerService = trainerService;
+        this.trainingEnrollmentService = trainingEnrollmentService;
     }
 
     @GetMapping
@@ -37,21 +47,43 @@ public class UserController {
       return ResponseEntity.ok().body(response);
     }
     @PostMapping
-    public ResponseEntity<UserDto> createUser (@RequestBody UserDto userDto) throws BadRequestException {
-        boolean wrongRequest=userDto==null || userDto.getUsername()==null || userDto.getEmail()==null || !EnumsHelperMethods.isValidRole(userDto.getRole());
+    public ResponseEntity<UserDto> createUser (@RequestBody UserRequestData data) throws BadRequestException {
+        boolean wrongRequest=data==null || data.getUsername()==null || data.getEmail()==null || !EnumsHelperMethods.isValidRole(data.getRole());
         if(wrongRequest){
             throw new BadRequestException("Invalid input data, please try again");
         }
+        UserDto userDto=UserDto.builder()
+                .username(data.getUsername())
+                .email(data.getEmail())
+                .password(data.getPassword())
+                .role(data.getRole())
+                .description(data.getDescription())
+                .isVerified(false)
+                .dateOfBirth(data.getDateOfBirth())
+                .phoneNumber(data.getPhoneNumber())
+                .secondPhoneNumber(data.getSecondPhoneNumber())
+                .gender(data.getGender())
+                .profilePicture(data.getProfilePicture())
+                .build();
         if(userDto.getRole()== Role.PARTICIPANT){
             ParticipantDto participantDto=ParticipantDto.builder()
                     .user(userDto)
-                    .structure("NOT_DEFINED")
-                    .profile("NOT_DEFINED")
+                    .structure(data.getStructure())
+                    .profile(data.getProfile())
                     .build();
             participantService.createParticipant(participantDto);
             return new ResponseEntity<>(userDto, HttpStatus.CREATED);
         }
-        //AddTrainer
+        if(userDto.getRole()== Role.TRAINER){
+            TrainerDto trainerDto=TrainerDto.builder()
+                    .user(userDto)
+                    .employerName(data.getEmployerName())
+                    .trainerType(data.getTrainerType())
+                    .build();
+            trainerService.createTrainer(trainerDto);
+            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+        }
+
         UserDto response=userService.createUser(userDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -87,7 +119,15 @@ public class UserController {
            throw new BadRequestException("The provided user id is null");
        }
        userService.deleteUser(userId);
-       return new ResponseEntity<>("User deleted successfully!",HttpStatus.NO_CONTENT);
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/{id}/enrollments")
+    public ResponseEntity<List<TrainingDto>> getEnrollments(@PathVariable Long id) throws BadRequestException {
+        if(id==null){
+            throw new BadRequestException("The provided user id is null");
+        }
+        List<TrainingDto> enrollments=trainingEnrollmentService.getParticipantsEnrollment(id);
+        return ResponseEntity.ok(enrollments);
     }
 
 }

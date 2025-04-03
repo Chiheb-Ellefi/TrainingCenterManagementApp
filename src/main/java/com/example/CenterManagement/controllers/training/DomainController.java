@@ -46,7 +46,7 @@ public class DomainController {
             throw new BadRequestException("Invalid domain id");
         }
         domainService.deleteDomain(id);
-        return new ResponseEntity<>("Domain deleted", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

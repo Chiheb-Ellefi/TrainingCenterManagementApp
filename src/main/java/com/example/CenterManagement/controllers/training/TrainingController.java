@@ -73,4 +73,12 @@ public class TrainingController {
         TrainingDto updatedTraining=trainingService.createTraining(newTraining,trainerId);
         return new ResponseEntity<>(updatedTraining, HttpStatus.ACCEPTED);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTraining(@PathVariable("id") String id) {
+        if(id == null) {
+            throw new BadRequestException("Training id cannot be null");
+        }
+        trainingService.deleteTrainingById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

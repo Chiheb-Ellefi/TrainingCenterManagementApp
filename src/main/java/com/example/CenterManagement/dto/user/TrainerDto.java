@@ -11,7 +11,7 @@ import lombok.Getter;
 public class TrainerDto {
 
     private Long trainerId;
-    @JsonIgnoreProperties({"password","role","isVerified","phoneNumber","secondPhoneNumber","dateOfBirth","description"})
+    @JsonIgnoreProperties({"password","role","isVerified","phoneNumber","secondPhoneNumber","dateOfBirth","description","gender"})
     private UserDto user;
     private TrainerType trainerType;
     private String employerName;

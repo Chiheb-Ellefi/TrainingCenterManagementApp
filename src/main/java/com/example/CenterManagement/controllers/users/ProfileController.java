@@ -30,6 +30,6 @@ public class ProfileController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProfile(@PathVariable Long id) {
         profileService.deleteProfileById(id);
-        return new ResponseEntity<>("Profile deleted successfully", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 }

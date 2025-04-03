@@ -1,7 +1,6 @@
 package com.example.CenterManagement.controllers.users;
 
 import com.example.CenterManagement.dto.user.StructureDto;
-import com.example.CenterManagement.services.users.ProfileService;
 import com.example.CenterManagement.services.users.StructureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +31,6 @@ public class StructureController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStructure(@PathVariable long id) {
         structureService.deleteStructure(id);
-        return new ResponseEntity<>("Structure deleted successfully", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

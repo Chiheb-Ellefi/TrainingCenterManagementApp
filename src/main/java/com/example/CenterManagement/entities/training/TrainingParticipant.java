@@ -15,12 +15,12 @@ public class TrainingParticipant {
     @EmbeddedId
     private TrainingParticipantsId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("trainingId")
     @JoinColumn(name = "training_id", referencedColumnName = "trainingId")
     private Training training;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("participantId")
     @JoinColumn(name = "participant_id", referencedColumnName = "participantId")
     private Participant participant;

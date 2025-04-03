@@ -62,7 +62,7 @@ public class TrainerController {
                 .trainerType(data.getTrainerType())
                 .employerName(data.getEmployerName())
                 .build();
-      trainerService.createTrainer(trainerDto,userDto);
+      trainerService.createTrainer(trainerDto);
         return new ResponseEntity<>("Trainer created successfully", HttpStatus.CREATED);
 
     }
@@ -108,7 +108,7 @@ public class TrainerController {
             throw new BadRequestException("Trainer id cannot be null");
         }
         trainerService.deleteTrainer(id);
-        return new ResponseEntity<>("Trainer deleted successfully", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 

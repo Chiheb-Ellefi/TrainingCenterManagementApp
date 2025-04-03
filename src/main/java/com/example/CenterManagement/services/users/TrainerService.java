@@ -32,10 +32,10 @@ public class TrainerService {
     }
 
     public TrainerDto getTrainer(Long id) {
-        return TrainerMapper.toDto(trainerRepository.findById(id).orElseThrow(()-> new RuntimeException("Trainer not found")));
+        return TrainerMapper.toDto(trainerRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trainer not found")));
     }
-    public void  createTrainer(TrainerDto trainerDto, UserDto userDto) {
-        UserDto savedUser=UserMapper.toDto(userRepository.save(UserMapper.toEntity(userDto)));
+    public void  createTrainer(TrainerDto trainerDto) {
+        UserDto savedUser=UserMapper.toDto(userRepository.save(UserMapper.toEntity(trainerDto.getUser())));
         if(savedUser==null){
             throw new RuntimeException("Cant save User, try again later");
         }
