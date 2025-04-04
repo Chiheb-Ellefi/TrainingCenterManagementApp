@@ -3,7 +3,9 @@ package com.example.CenterManagement.services.users;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.entities.user.Participant;
 import com.example.CenterManagement.entities.user.User;
-import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.exceptions.users.ProfileNotFoundException;
+import com.example.CenterManagement.exceptions.users.StructureNotFoundException;
+import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.mappers.user.ParticipantMapper;
 import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.users.ParticipantRepository;
@@ -37,10 +39,10 @@ public class ParticipantService {
 
     public ParticipantDto  createParticipant(ParticipantDto participant) {
 if(!profileRepository.existsByProfileType(participant.getProfile())){
-    throw new RuntimeException("Profile type "+ participant.getProfile()+" not supported");
+    throw new ProfileNotFoundException("Profile type "+ participant.getProfile()+" not supported");
 }
 if(!structureRepository.existsByStructureName(participant.getStructure())){
-    throw new RuntimeException("Structure "+participant.getStructure() +" name not supported");
+    throw new StructureNotFoundException("Structure "+participant.getStructure() +" name not supported");
 }
         User user=userRepository.save(UserMapper.toEntity(participant.getUser()));
         Participant newParticipant = Participant.builder()
@@ -61,10 +63,10 @@ if(!structureRepository.existsByStructureName(participant.getStructure())){
     @Transactional
     public ParticipantDto updateParticipant(ParticipantDto participant) {
         if(!profileRepository.existsByProfileType(participant.getProfile())){
-            throw new RuntimeException("Profile type "+ participant.getProfile()+" not supported");
+            throw new ProfileNotFoundException("Profile type "+ participant.getProfile()+" not supported");
         }
         if(!structureRepository.existsByStructureName(participant.getStructure())){
-            throw new RuntimeException("Structure "+participant.getStructure() +" name not supported");
+            throw new StructureNotFoundException("Structure "+participant.getStructure() +" name not supported");
         }
         User user = userRepository.save(UserMapper.toEntity(participant.getUser()));
         Participant newParticipant = Participant.builder()

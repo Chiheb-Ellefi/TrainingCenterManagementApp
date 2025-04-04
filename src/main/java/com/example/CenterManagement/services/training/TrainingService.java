@@ -3,11 +3,10 @@ package com.example.CenterManagement.services.training;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.entities.training.Training;
 import com.example.CenterManagement.entities.user.Trainer;
-import com.example.CenterManagement.exceptions.BadRequestException;
-import com.example.CenterManagement.exceptions.DomainNotFound;
-import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.exceptions.trainings.DomainNotFoundException;
+import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
+import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.mappers.training.TrainingMapper;
-import com.example.CenterManagement.mappers.user.TrainerMapper;
 import com.example.CenterManagement.repositories.training.DomainRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
 import com.example.CenterManagement.repositories.users.TrainerRepository;
@@ -37,13 +36,13 @@ public class TrainingService {
         return trainingRepository.findAll(PageRequest.of(page,offset)).stream().map(TrainingMapper::toDto).collect(Collectors.toList());
     }
     public TrainingDto getTrainingById(String id) {
-        return TrainingMapper.toDto(trainingRepository.findById(id).orElseThrow(() -> new RuntimeException("Training not found")));
+        return TrainingMapper.toDto(trainingRepository.findById(id).orElseThrow(() -> new TrainingNotFoundException("Training with id "+id+" not found")));
     }
 
     @Transactional
     public TrainingDto createTraining(TrainingDto trainingDto, Long trainerId) {
         if(domainRepository.getDomainByDomainName(trainingDto.getDomainName()) == null) {
-            throw new DomainNotFound("Domain name "+trainingDto.getDomainName()+" does not exist");
+            throw new DomainNotFoundException("Domain name "+trainingDto.getDomainName()+" does not exist");
         }
         Trainer trainer = trainerRepository.findById(trainerId)
                 .orElseThrow(() -> new UserNotFoundException("Trainer not found with id: " + trainerId));
@@ -63,7 +62,7 @@ public class TrainingService {
 
     public void deleteTrainingById(String id) {
         if (id == null || !trainingRepository.existsById(id)) {
-            throw new RuntimeException("Training not found with ID: " + id);
+            throw new TrainingNotFoundException("Training not found with ID: " + id);
         }
         trainingRepository.deleteById(id);
     }

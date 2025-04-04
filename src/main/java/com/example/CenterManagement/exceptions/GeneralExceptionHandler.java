@@ -1,6 +1,14 @@
 package com.example.CenterManagement.exceptions;
 
-import com.example.CenterManagement.dto.user.UserDto;
+
+import com.example.CenterManagement.exceptions.trainings.DomainNotFoundException;
+import com.example.CenterManagement.exceptions.trainings.EnrollmentNotFoundException;
+import com.example.CenterManagement.exceptions.trainings.ParticipantAlreadyEnrolledException;
+import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
+import com.example.CenterManagement.exceptions.users.EmployerNotFoundException;
+import com.example.CenterManagement.exceptions.users.ProfileNotFoundException;
+import com.example.CenterManagement.exceptions.users.StructureNotFoundException;
+import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.ErrorDetails;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.hibernate.PropertyValueException;
@@ -23,19 +31,70 @@ public class GeneralExceptionHandler {
                 .build();
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(TrainingNotFoundException.class)
+    public ResponseEntity<ErrorDetails> trainingNotFoundHandler(TrainingNotFoundException e) {
+        ErrorDetails errorDetails =ErrorDetails.builder()
+                .details(e.getMessage())
+                .message("Training not found")
+                .build();
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ParticipantAlreadyEnrolledException.class)
+    public ResponseEntity<ErrorDetails> participantAlreadyEnrolledHandler(ParticipantAlreadyEnrolledException e) {
+        ErrorDetails errorDetails =ErrorDetails.builder()
+                .details(e.getMessage())
+                .message("Participant already enrolled to this training")
+                .build();
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(EnrollmentNotFoundException.class)
+   public ResponseEntity<ErrorDetails> enrollmentNotFoundHandler(EnrollmentNotFoundException e) {
+        ErrorDetails errorDetails =ErrorDetails.builder()
+                .details(e.getMessage())
+                .message("Enrollment not found for this participant")
+                .build();
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorDetails> badRequestHandler(BadRequestException ex) {
         ErrorDetails errorDetails = ErrorDetails.builder()
-                .message("Bad request")
+                .message("Invalid request body")
                 .details(ex.getMessage())
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(DomainNotFound.class)
-    public ResponseEntity<ErrorDetails> domainNotFoundHandler(DomainNotFound ex) {
+    @ExceptionHandler(DomainNotFoundException.class)
+    public ResponseEntity<ErrorDetails> domainNotFoundHandler(DomainNotFoundException ex) {
         ErrorDetails errorDetails = ErrorDetails.builder()
-                .message("Domain name does not exist")
+                .message("Provided domain name does not exist")
+                .details(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(EmployerNotFoundException.class)
+    public ResponseEntity<ErrorDetails> employerNotFoundHandler(EmployerNotFoundException ex) {
+        ErrorDetails errorDetails = ErrorDetails.builder()
+                .message("Provided employer name does not exist")
+                .details(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<ErrorDetails> profileNotFoundHandler(ProfileNotFoundException ex) {
+        ErrorDetails errorDetails = ErrorDetails.builder()
+                .message("Provided profile does not exist")
+                .details(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(StructureNotFoundException.class)
+    public ResponseEntity<ErrorDetails> structureNotFoundHandler(StructureNotFoundException ex) {
+        ErrorDetails errorDetails = ErrorDetails.builder()
+                .message("Provided structure name does not exist")
                 .details(ex.getMessage())
                 .build();
 

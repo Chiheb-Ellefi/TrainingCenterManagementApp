@@ -4,7 +4,8 @@ import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Trainer;
 import com.example.CenterManagement.entities.user.User;
-import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.exceptions.users.EmployerNotFoundException;
+import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.mappers.user.TrainerMapper;
 import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.users.EmployerRepository;
@@ -41,7 +42,7 @@ public class TrainerService {
     }
     public TrainerDto  createTrainer(TrainerDto trainerDto) {
         if(!employerRepository.existsBYEmployerName(trainerDto.getEmployerName())){
-            throw new RuntimeException("Employer name does not exist");
+            throw new EmployerNotFoundException("Employer with name: "+trainerDto.getEmployerName()+" does not exist");
         }
         User savedUser=userRepository.save(UserMapper.toEntity(trainerDto.getUser()));
         Trainer trainer=Trainer.builder()
@@ -58,7 +59,7 @@ public class TrainerService {
             throw new UserNotFoundException("Trainer id not found");
         }
         if(!employerRepository.existsBYEmployerName(trainerDto.getEmployerName())){
-            throw new RuntimeException("Employer name does not exist");
+            throw new EmployerNotFoundException("Employer with name: "+trainerDto.getEmployerName()+" does not exist");
         }
         User savedUser=userRepository.save(UserMapper.toEntity(userDto));
         Trainer trainer=Trainer.builder()

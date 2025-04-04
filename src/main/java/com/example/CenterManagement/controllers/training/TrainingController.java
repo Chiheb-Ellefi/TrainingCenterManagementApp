@@ -2,6 +2,7 @@ package com.example.CenterManagement.controllers.training;
 
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.exceptions.BadRequestException;
+import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
 import com.example.CenterManagement.models.TrainingRequestData;
 import com.example.CenterManagement.services.training.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class TrainingController {
         }
         TrainingDto oldTraining = trainingService.getTrainingById(id);
         if(oldTraining == null) {
-            throw new RuntimeException("Training is not found");
+            throw new TrainingNotFoundException("Training is not found");
         }
         TrainingDto newTraining=TrainingDto.builder()
                 .trainingId(oldTraining.getTrainingId())

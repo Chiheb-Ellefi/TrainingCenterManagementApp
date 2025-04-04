@@ -1,4 +1,4 @@
-package com.example.CenterManagement.exceptions;
+package com.example.CenterManagement.exceptions.users;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

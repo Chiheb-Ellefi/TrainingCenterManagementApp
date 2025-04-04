@@ -7,7 +7,10 @@ import com.example.CenterManagement.entities.training.Training;
 import com.example.CenterManagement.entities.training.TrainingParticipant;
 import com.example.CenterManagement.entities.training.TrainingParticipantsId;
 import com.example.CenterManagement.entities.user.Participant;
-import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.exceptions.trainings.EnrollmentNotFoundException;
+import com.example.CenterManagement.exceptions.trainings.ParticipantAlreadyEnrolledException;
+import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
+import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.mappers.training.TrainingParticipantMapper;
 import com.example.CenterManagement.repositories.training.TrainingParticipantsRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
@@ -31,10 +34,10 @@ public class TrainingEnrollmentService {
         this.participantRepository = participantRepository;
     }
     public TrainingParticipantDto createTrainingEnrollment(String trainingId,Long userId ) {
-        Training training=trainingRepository.findById(trainingId).orElseThrow(()-> new RuntimeException("Training id not found"));
+        Training training=trainingRepository.findById(trainingId).orElseThrow(()-> new TrainingNotFoundException("Training with id: "+trainingId+" not found"));
         Participant participant=participantRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User id not found"));
         if (trainingParticipantsRepository.existsById(new TrainingParticipantsId(trainingId,userId)) ){
-            throw new IllegalStateException("Participant already enrolled in this training");
+            throw new ParticipantAlreadyEnrolledException("Participant with id: "+userId+" already enrolled to this training");
         }
 
         TrainingParticipant enrollment=TrainingParticipant.builder()
@@ -59,7 +62,7 @@ public class TrainingEnrollmentService {
 
     public void cancelTrainingEnrollment(Long user_id,String id) {
         if (!trainingParticipantsRepository.existsById(new TrainingParticipantsId(id,user_id))) {
-            throw new IllegalStateException("Enrollment doesnt exist");
+            throw new EnrollmentNotFoundException("User with id: "+user_id+" not enrolled to training with id: "+id);
         }
         this.trainingParticipantsRepository.deleteById(new TrainingParticipantsId(id,user_id));
     }

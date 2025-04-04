@@ -2,6 +2,7 @@ package com.example.CenterManagement.services.training;
 
 import com.example.CenterManagement.dto.training.DomainDto;
 import com.example.CenterManagement.entities.training.Domain;
+import com.example.CenterManagement.exceptions.trainings.DomainNotFoundException;
 import com.example.CenterManagement.mappers.training.DomainMapper;
 import com.example.CenterManagement.repositories.training.DomainRepository;
 import jakarta.transaction.Transactional;
@@ -23,7 +24,7 @@ public class DomainService {
         if(id == null) {
             throw new IllegalArgumentException("Domain id cannot be null");
         }
-        return DomainMapper.toDto(domainRepository.findById(id).orElseThrow(()->new RuntimeException("Domain not found.")));
+        return DomainMapper.toDto(domainRepository.findById(id).orElseThrow(()->new DomainNotFoundException("Domain with id  "+id+" not found.")));
     }
     public DomainDto createDomain(DomainDto domainDto) {
         if(domainDto == null) {
@@ -36,7 +37,7 @@ public class DomainService {
     @Transactional
     public void deleteDomain(Long id) {
         if( !domainRepository.existsById(id)) {
-            throw new IllegalArgumentException("Domain not found");
+            throw new DomainNotFoundException("Domain with id  "+id+" not found.");
         }
         domainRepository.deleteById(id);
     }

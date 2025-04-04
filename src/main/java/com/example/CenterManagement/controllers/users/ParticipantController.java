@@ -4,7 +4,7 @@ import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.BadRequestException;
-import com.example.CenterManagement.exceptions.UserNotFoundException;
+import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.ParticipantRequestData;
 import com.example.CenterManagement.services.users.ParticipantService;
 import com.example.CenterManagement.utils.RandomPasswordGenerator;
