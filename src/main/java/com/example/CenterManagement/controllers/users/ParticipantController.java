@@ -38,7 +38,7 @@ public class ParticipantController {
         return new ResponseEntity<>(participant, HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<String> createParticipant(@RequestBody ParticipantRequestData data) {
+    public ResponseEntity<ParticipantDto> createParticipant(@RequestBody ParticipantRequestData data) {
         if(data==null || data.getEmail()==null || data.getUsername()==null){
             throw new BadRequestException("Provided participant data is null or empty");
         }
@@ -61,11 +61,11 @@ public class ParticipantController {
                .structure(data.getStructure())
                .profile(data.getProfile())
                .build();
-       participantService.createParticipant(participantDto);
-       return new ResponseEntity<>("Participant saved successfully", HttpStatus.CREATED);
+       ParticipantDto participant=participantService.createParticipant(participantDto);
+       return new ResponseEntity<>(participant, HttpStatus.CREATED);
     }
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateParticipant(@PathVariable Long id, @RequestBody ParticipantRequestData data) {
+    public ResponseEntity<ParticipantDto> updateParticipant(@PathVariable Long id, @RequestBody ParticipantRequestData data) {
 
         if(id==null ){
             throw new BadRequestException("Provided participantId is null ");
@@ -98,8 +98,8 @@ public class ParticipantController {
                 .structure(data.getStructure()!=null?data.getStructure():participant.getStructure())
                 .profile(data.getProfile()!=null?data.getProfile():participant.getProfile())
                 .build();
-        participantService.updateParticipant(newParticipant);
-        return new ResponseEntity<>("Participant updated successfully", HttpStatus.ACCEPTED);
+       ParticipantDto participantDto= participantService.updateParticipant(newParticipant);
+        return new ResponseEntity<>(participantDto, HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteParticipant(@PathVariable Long id) {

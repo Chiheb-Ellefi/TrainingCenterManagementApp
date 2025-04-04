@@ -1,10 +1,15 @@
 package com.example.CenterManagement.services.users;
 
 import com.example.CenterManagement.dto.user.ParticipantDto;
-import com.example.CenterManagement.dto.user.UserDto;
+import com.example.CenterManagement.entities.user.Participant;
+import com.example.CenterManagement.entities.user.User;
 import com.example.CenterManagement.exceptions.UserNotFoundException;
 import com.example.CenterManagement.mappers.user.ParticipantMapper;
+import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.users.ParticipantRepository;
+import com.example.CenterManagement.repositories.users.ProfileRepository;
+import com.example.CenterManagement.repositories.users.StructureRepository;
+import com.example.CenterManagement.repositories.users.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,19 +22,35 @@ import java.util.stream.Collectors;
 @Service
 public class ParticipantService {
     private final ParticipantRepository participantRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
+    private final StructureRepository structureRepository;
     @Value("${spring.application.offset}")
     private int offset;
     @Autowired
-    public ParticipantService(ParticipantRepository participantRepository,UserService userService) {
+    public ParticipantService(ParticipantRepository participantRepository,UserRepository userRepository,ProfileRepository profileRepository,StructureRepository structureRepository) {
         this.participantRepository = participantRepository;
-        this.userService = userService;
+      this.userRepository = userRepository;
+      this.profileRepository = profileRepository;
+      this.structureRepository = structureRepository;
     }
 
-    public void  createParticipant(ParticipantDto participant) {
-       UserDto savedUser=userService.createUser(participant.getUser());
-       participant.setUser(savedUser);
-        participantRepository.insertParticipant(participant.getUser().getUserId(), participant.getStructure(), participant.getProfile());
+    public ParticipantDto  createParticipant(ParticipantDto participant) {
+if(!profileRepository.existsByProfileType(participant.getProfile())){
+    throw new RuntimeException("Profile type "+ participant.getProfile()+" not supported");
+}
+if(!structureRepository.existsByStructureName(participant.getStructure())){
+    throw new RuntimeException("Structure "+participant.getStructure() +" name not supported");
+}
+        User user=userRepository.save(UserMapper.toEntity(participant.getUser()));
+        Participant newParticipant = Participant.builder()
+                .user(user)
+                .profile(participant.getProfile())
+                .structure(participant.getStructure())
+                .build();
+        return  ParticipantMapper.toDto(participantRepository.save(newParticipant));
+
+
     }
     public List<ParticipantDto> getAllParticipants(int page) {
         return participantRepository.findAll(PageRequest.of(page,offset )).stream().map(ParticipantMapper::toDto).collect(Collectors.toList());
@@ -38,15 +59,22 @@ public class ParticipantService {
         return ParticipantMapper.toDto(participantRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Participant not found")));
     }
     @Transactional
-    public void updateParticipant(ParticipantDto participant) {
-        UserDto savedUser = userService.updateUser(participant.getUser());
-        participant.setUser(savedUser);
-        participantRepository.updateParticipant(
-                participant.getUser().getUserId(),
-                participant.getStructure(),
-                participant.getProfile(),
-                participant.getParticipantId()
-        );
+    public ParticipantDto updateParticipant(ParticipantDto participant) {
+        if(!profileRepository.existsByProfileType(participant.getProfile())){
+            throw new RuntimeException("Profile type "+ participant.getProfile()+" not supported");
+        }
+        if(!structureRepository.existsByStructureName(participant.getStructure())){
+            throw new RuntimeException("Structure "+participant.getStructure() +" name not supported");
+        }
+        User user = userRepository.save(UserMapper.toEntity(participant.getUser()));
+        Participant newParticipant = Participant.builder()
+                .participantId(participant.getParticipantId())
+                .user(user)
+                .profile(participant.getProfile())
+                .structure(participant.getStructure())
+                .build();
+
+       return  ParticipantMapper.toDto(participantRepository.save(newParticipant));
 
     }
 

@@ -47,7 +47,7 @@ public class UserController {
       return ResponseEntity.ok().body(response);
     }
     @PostMapping
-    public ResponseEntity<UserDto> createUser (@RequestBody UserRequestData data) throws BadRequestException {
+    public ResponseEntity<Object> createUser (@RequestBody UserRequestData data) throws BadRequestException {
         boolean wrongRequest=data==null || data.getUsername()==null || data.getEmail()==null || !EnumsHelperMethods.isValidRole(data.getRole());
         if(wrongRequest){
             throw new BadRequestException("Invalid input data, please try again");
@@ -71,8 +71,8 @@ public class UserController {
                     .structure(data.getStructure())
                     .profile(data.getProfile())
                     .build();
-            participantService.createParticipant(participantDto);
-            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+           ParticipantDto participant= participantService.createParticipant(participantDto);
+            return new ResponseEntity<>(participant, HttpStatus.CREATED);
         }
         if(userDto.getRole()== Role.TRAINER){
             TrainerDto trainerDto=TrainerDto.builder()
@@ -80,8 +80,8 @@ public class UserController {
                     .employerName(data.getEmployerName())
                     .trainerType(data.getTrainerType())
                     .build();
-            trainerService.createTrainer(trainerDto);
-            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+           TrainerDto trainer= trainerService.createTrainer(trainerDto);
+            return new ResponseEntity<>(trainer, HttpStatus.CREATED);
         }
 
         UserDto response=userService.createUser(userDto);

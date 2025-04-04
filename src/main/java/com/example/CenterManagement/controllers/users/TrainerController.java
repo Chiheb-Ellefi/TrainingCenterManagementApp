@@ -39,7 +39,7 @@ public class TrainerController {
         return new ResponseEntity<>(trainer, HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<String> createTrainer(@RequestBody TrainerRequestData data) {
+    public ResponseEntity<TrainerDto> createTrainer(@RequestBody TrainerRequestData data) {
         if(data==null){
             throw new BadRequestException("The provided trainer is null");
         }
@@ -62,12 +62,12 @@ public class TrainerController {
                 .trainerType(data.getTrainerType())
                 .employerName(data.getEmployerName())
                 .build();
-      trainerService.createTrainer(trainerDto);
-        return new ResponseEntity<>("Trainer created successfully", HttpStatus.CREATED);
+      TrainerDto trainer=trainerService.createTrainer(trainerDto);
+        return new ResponseEntity<>(trainer, HttpStatus.CREATED);
 
     }
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateTrainer(@PathVariable Long id, @RequestBody TrainerRequestData data) {
+    public ResponseEntity<TrainerDto> updateTrainer(@PathVariable Long id, @RequestBody TrainerRequestData data) {
         if(data==null){
             throw new BadRequestException("The provided trainer is null");
         }
@@ -99,8 +99,8 @@ public class TrainerController {
                 .trainerType(data.getTrainerType()!=null ? data.getTrainerType() : oldTrainer.getTrainerType())
                 .employerName(data.getEmployerName()!=null ? data.getEmployerName() : oldTrainer.getEmployerName())
                 .build();
-        trainerService.updateTrainer(newTrainer,newUser);
-        return  new ResponseEntity<>("Trainer updated successfully", HttpStatus.ACCEPTED);
+      TrainerDto trainer=  trainerService.updateTrainer(newTrainer,newUser);
+        return  new ResponseEntity<>(trainer, HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTrainer(@PathVariable Long id) throws UserNotFoundException {

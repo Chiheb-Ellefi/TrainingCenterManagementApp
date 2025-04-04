@@ -9,10 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
-    @Modifying
-    @Query(value = "INSERT INTO participants (user_id, structure, profile) VALUES (?1, (SELECT s.structure_name FROM structures s WHERE s.structure_name = ?2 ), (SELECT p.profile_type FROM profiles p WHERE p.profile_type= ?3 ))",
-            nativeQuery = true)
-    void insertParticipant(Long userId, String structure, String profile);
 
     @Modifying
     @Query(value = "UPDATE participants p " +
