@@ -1,5 +1,6 @@
 package com.example.CenterManagement.controllers.training;
 
+import com.example.CenterManagement.annotations.training.CheckInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
@@ -26,6 +27,7 @@ public class TrainingController {
         return ResponseEntity.ok(trainings);
     }
     @GetMapping("/{id}")
+    @CheckInCache
     public ResponseEntity<TrainingDto> getTrainingById(@PathVariable("id") String id) {
         if(id == null) {
             throw new BadRequestException("Training id cannot be null");

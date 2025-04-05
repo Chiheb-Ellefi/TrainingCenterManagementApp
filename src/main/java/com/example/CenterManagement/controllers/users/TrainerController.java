@@ -1,5 +1,6 @@
 package com.example.CenterManagement.controllers.users;
 
+import com.example.CenterManagement.annotations.users.CheckInCache;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
@@ -27,7 +28,7 @@ public class TrainerController {
     public ResponseEntity<List<TrainerDto>> getAllTrainers(@RequestParam(required = false ,defaultValue = "0")Integer page) {
         List<TrainerDto> trainers = trainerService.getAllTrainers(page);
         return new ResponseEntity<>(trainers, HttpStatus.OK);
-    }
+    }@CheckInCache
     @GetMapping("/{id}")
     public ResponseEntity<TrainerDto> getTrainer(@PathVariable Long id) throws UserNotFoundException {
         if(id == null) {

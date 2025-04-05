@@ -2,25 +2,29 @@ spring:
   application:
     name: CenterManagement
     offset: 10
+    ttl: 120
+
   datasource:
     url: jdbc:postgresql://localhost:5432/test
     username: postgres
     password: password
+
   data:
     redis:
-      host: 127.0.0.1
+      client-name: default
+      host: localhost
       port: 9000
+
+
   jpa:
     hibernate:
       ddl-auto: update
-
     open-in-view: false
-
-
 
   security:
     user:
       name: user
       password: user
+
 server:
   port: 5000

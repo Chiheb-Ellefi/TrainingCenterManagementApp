@@ -1,5 +1,6 @@
 package com.example.CenterManagement.controllers.users;
 
+import com.example.CenterManagement.annotations.users.CheckInCache;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
@@ -29,6 +30,7 @@ public class ParticipantController {
         List<ParticipantDto> participants = participantService.getAllParticipants(page);
         return new ResponseEntity<>(participants, HttpStatus.OK);
     }
+    @CheckInCache(type = "participant")
     @GetMapping("/{id}")
     public ResponseEntity<ParticipantDto> getParticipant(@PathVariable Long id) {
         if(id==null){

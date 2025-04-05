@@ -1,5 +1,8 @@
 package com.example.CenterManagement.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Gender {
-    MALE, FEMALE
+    @JsonProperty("MALE")  MALE,
+    @JsonProperty("FEMALE") FEMALE
 }

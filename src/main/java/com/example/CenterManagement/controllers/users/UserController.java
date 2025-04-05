@@ -1,5 +1,6 @@
 package com.example.CenterManagement.controllers.users;
 
+import com.example.CenterManagement.annotations.users.CheckInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
@@ -41,6 +42,7 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
     @GetMapping("/{userId}")
+    @CheckInCache
     public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
       UserDto response=  userService.getUserById(userId);
       return ResponseEntity.ok().body(response);

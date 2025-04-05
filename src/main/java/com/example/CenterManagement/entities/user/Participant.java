@@ -12,7 +12,6 @@ import lombok.*;
 @Table(name = "participants")
 public class Participant {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long participantId;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)

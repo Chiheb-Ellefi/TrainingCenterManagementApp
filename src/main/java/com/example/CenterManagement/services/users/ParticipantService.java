@@ -46,6 +46,7 @@ if(!structureRepository.existsByStructureName(participant.getStructure())){
 }
         User user=userRepository.save(UserMapper.toEntity(participant.getUser()));
         Participant newParticipant = Participant.builder()
+                .participantId(user.getUserId())
                 .user(user)
                 .profile(participant.getProfile())
                 .structure(participant.getStructure())

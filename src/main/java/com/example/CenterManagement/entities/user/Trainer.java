@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Trainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long trainerId;
     @Column(nullable = false)
     private String employerName;
