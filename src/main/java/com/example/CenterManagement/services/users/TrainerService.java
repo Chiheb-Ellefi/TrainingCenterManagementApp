@@ -34,6 +34,7 @@ public class TrainerService {
         this.employerRepository = employerRepository;
     }
     public List<TrainerDto> getAllTrainers(int page) {
+
         return trainerRepository.findAll(PageRequest.of(page,offset)).stream().map(TrainerMapper::toDto).collect(Collectors.toList());
     }
 
