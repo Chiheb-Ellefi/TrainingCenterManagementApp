@@ -36,4 +36,11 @@ public class UserMapper {
                 .secondPhoneNumber(user.getSecondPhoneNumber())
                 .build();
     }
+    public static UserDto toLightDto(User user){
+        return UserDto.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .profilePicture(user.getProfilePicture())
+                .build();
+    }
 }

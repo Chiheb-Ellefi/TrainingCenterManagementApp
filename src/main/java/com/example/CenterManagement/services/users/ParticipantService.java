@@ -56,10 +56,10 @@ if(!structureRepository.existsByStructureName(participant.getStructure())){
 
     }
     public List<ParticipantDto> getAllParticipants(int page) {
-        return participantRepository.findAll(PageRequest.of(page,offset )).stream().map(ParticipantMapper::toDto).collect(Collectors.toList());
+        return participantRepository.findAll(PageRequest.of(page,offset )).stream().map(ParticipantMapper::toLightDto).collect(Collectors.toList());
     }
     public ParticipantDto getParticipant(Long id) {
-        return ParticipantMapper.toDto(participantRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Participant not found")));
+        return ParticipantMapper.toLightDto(participantRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Participant not found")));
     }
     @Transactional
     public ParticipantDto updateParticipant(ParticipantDto participant) {

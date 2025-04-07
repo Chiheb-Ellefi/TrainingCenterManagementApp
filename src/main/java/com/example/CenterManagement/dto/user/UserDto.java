@@ -19,6 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Data transfer object representing a user")
+
 public class UserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 

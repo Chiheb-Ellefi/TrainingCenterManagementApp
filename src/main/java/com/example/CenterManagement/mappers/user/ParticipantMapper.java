@@ -12,6 +12,14 @@ public class ParticipantMapper {
                 .user(UserMapper.toDto(participant.getUser()))
                 .build();
     }
+    public static ParticipantDto toLightDto(Participant participant){
+        return ParticipantDto.builder()
+                .participantId(participant.getParticipantId())
+                .profile(participant.getProfile())
+                .structure(participant.getStructure())
+                .user(UserMapper.toLightDto(participant.getUser()))
+                .build();
+    }
     public static Participant toEntity(ParticipantDto participantDto){
         return Participant.builder()
                 .participantId(participantDto.getParticipantId())

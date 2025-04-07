@@ -35,11 +35,11 @@ public class TrainerService {
     }
     public List<TrainerDto> getAllTrainers(int page) {
 
-        return trainerRepository.findAll(PageRequest.of(page,offset)).stream().map(TrainerMapper::toDto).collect(Collectors.toList());
+        return trainerRepository.findAll(PageRequest.of(page,offset)).stream().map(TrainerMapper::toLightDto).collect(Collectors.toList());
     }
 
     public TrainerDto getTrainer(Long id) {
-        return TrainerMapper.toDto(trainerRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trainer not found")));
+        return TrainerMapper.toLightDto(trainerRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trainer not found")));
     }
     @Transactional
     public TrainerDto  createTrainer(TrainerDto trainerDto) {
