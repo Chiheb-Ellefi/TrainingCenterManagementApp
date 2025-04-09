@@ -57,12 +57,6 @@ public class UserRequestData {
     )
     private Role role;
 
-    @Schema(
-            description = "Verification status of the user",
-            example = "false",
-            defaultValue = "false"
-    )
-    private Boolean isVerified;
 
     @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
     @Schema(
@@ -71,15 +65,6 @@ public class UserRequestData {
             requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     private String phoneNumber;
-
-    @Size(min = 10, max = 15, message = "Secondary phone number must be between 10 and 15 characters")
-    @Schema(
-            description = "Secondary phone number of the user",
-            example = "+0987654321",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private String secondPhoneNumber;
-
     @Schema(
             description = "Birth date of the user",
             example = "1990-01-01",

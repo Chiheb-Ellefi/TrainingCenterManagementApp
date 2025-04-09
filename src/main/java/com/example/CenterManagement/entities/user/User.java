@@ -28,10 +28,7 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean isVerified;
     private String  phoneNumber;
-    private String secondPhoneNumber;
     private Date dateOfBirth;
     @Enumerated(EnumType.STRING)
     private Gender gender;

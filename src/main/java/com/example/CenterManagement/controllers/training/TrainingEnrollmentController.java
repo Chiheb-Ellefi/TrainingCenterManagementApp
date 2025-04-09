@@ -2,10 +2,10 @@ package com.example.CenterManagement.controllers.training;
 
 import com.example.CenterManagement.dto.training.TrainingParticipantDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
+import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.services.training.TrainingEnrollmentService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -60,11 +60,11 @@ public class TrainingEnrollmentController {
                     content = @Content(mediaType = "text/plain"))
     })
     @GetMapping("/{id}/participants")
-    public ResponseEntity<List<ParticipantDto>> getTrainingParticipants(@PathVariable String id) {
+    public ResponseEntity<List<UserDto>> getTrainingParticipants(@PathVariable String id) {
         if (id == null) {
             throw new BadRequestException("The provided training id is null");
         }
-        List<ParticipantDto> response = trainingEnrollmentService.getEnrollmentParticipants(id);
+        List<UserDto> response = trainingEnrollmentService.getEnrollmentParticipants(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

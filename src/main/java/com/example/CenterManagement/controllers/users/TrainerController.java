@@ -7,6 +7,7 @@ import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.TrainerRequestData;
+import com.example.CenterManagement.services.users.EmailService;
 import com.example.CenterManagement.services.users.TrainerService;
 import com.example.CenterManagement.utils.RandomPasswordGenerator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,10 +29,11 @@ import java.util.List;
 public class TrainerController {
 
     private final TrainerService trainerService;
-
+    private final EmailService emailService;
     @Autowired
-    public TrainerController(TrainerService trainerService) {
+    public TrainerController(TrainerService trainerService,EmailService emailService) {
         this.trainerService = trainerService;
+        this.emailService = emailService;
     }
 
     @Operation(
@@ -96,8 +98,6 @@ public class TrainerController {
                 .role(Role.TRAINER)
                 .phoneNumber(data.getPhoneNumber())
                 .profilePicture(data.getProfilePicture())
-                .secondPhoneNumber(data.getSecondPhoneNumber())
-                .isVerified(false)
                 .description(data.getDescription())
                 .dateOfBirth(data.getDateOfBirth())
                 .gender(data.getGender())
@@ -109,6 +109,7 @@ public class TrainerController {
                 .employerName(data.getEmployerName())
                 .build();
         TrainerDto trainer = trainerService.createTrainer(trainerDto);
+        emailService.sendSimpleEmail(userDto.getEmail(), "An account with this email have been created",password);
         return new ResponseEntity<>(trainer, HttpStatus.CREATED);
     }
 
@@ -149,8 +150,6 @@ public class TrainerController {
                 .userId(oldUser.getUserId())
                 .gender(data.getGender() != null ? data.getGender() : oldUser.getGender())
                 .phoneNumber(data.getPhoneNumber() != null ? data.getPhoneNumber() : oldUser.getPhoneNumber())
-                .secondPhoneNumber(data.getSecondPhoneNumber() != null ? data.getSecondPhoneNumber() : oldUser.getSecondPhoneNumber())
-                .isVerified(data.getIsVerified() != null ? data.getIsVerified() : oldUser.getIsVerified())
                 .profilePicture(data.getProfilePicture() != null ? data.getProfilePicture() : oldUser.getProfilePicture())
                 .build();
         TrainerDto newTrainer = TrainerDto.builder()

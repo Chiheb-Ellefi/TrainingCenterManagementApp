@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
 import lombok.*;
 
+import java.time.LocalTime;
 import java.util.Date;
 @Builder
 @Getter
@@ -28,6 +29,13 @@ public class Training {
     private Date endDate;
     private String description;
     private String domainName;
+    @Column(nullable = false)
+    private LocalTime startTime;
+    @Column(nullable = false)
+    private LocalTime endTime;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Type type;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "trainer_id", referencedColumnName = "trainerId", nullable = false)
     private Trainer trainer;

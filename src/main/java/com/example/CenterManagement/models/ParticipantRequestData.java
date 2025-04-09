@@ -29,12 +29,6 @@ public class ParticipantRequestData {
     )
     private String email;
 
-    @Schema(
-            description = "Verification status of the participant",
-            example = "false",
-            defaultValue = "false"
-    )
-    private Boolean isVerified;
 
     @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
     @Schema(
@@ -44,13 +38,7 @@ public class ParticipantRequestData {
     )
     private String phoneNumber;
 
-    @Size(min = 10, max = 15, message = "Secondary phone number must be between 10 and 15 characters")
-    @Schema(
-            description = "Secondary phone number of the participant",
-            example = "+0987654321",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private String secondPhoneNumber;
+
 
     @Schema(
             description = "Birth date of the participant",

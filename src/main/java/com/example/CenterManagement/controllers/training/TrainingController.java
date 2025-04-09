@@ -93,6 +93,7 @@ public class TrainingController {
                 .startDate(data.getStartDate())
                 .endDate(data.getEndDate())
                 .description(data.getDescription())
+                .type(data.getType())
                 .domainName(data.getDomainName())
                 .build();
 
@@ -137,6 +138,7 @@ public class TrainingController {
                 .endDate(data.getEndDate() != null ? data.getEndDate() : oldTraining.getEndDate())
                 .description(data.getDescription() != null ? data.getDescription() : oldTraining.getDescription())
                 .domainName(data.getDomainName() != null ? data.getDomainName() : oldTraining.getDomainName())
+                .type(data.getType() != null ? data.getType() : oldTraining.getType())
                 .build();
 
         Long trainerId = data.getTrainerId() != null ? data.getTrainerId() : oldTraining.getTrainer().getTrainerId();

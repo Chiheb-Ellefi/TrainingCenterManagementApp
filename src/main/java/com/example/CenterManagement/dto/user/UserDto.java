@@ -4,6 +4,7 @@ import com.example.CenterManagement.entities.user.Gender;
 import com.example.CenterManagement.entities.user.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Data transfer object representing a user")
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -61,12 +62,7 @@ public class UserDto implements Serializable {
     )
     private Role role;
 
-    @Schema(
-            description = "Verification status of the user (default is false)",
-            example = "false",
-            defaultValue = "false"
-    )
-    private Boolean isVerified;
+
 
     @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
     @Schema(
@@ -76,13 +72,7 @@ public class UserDto implements Serializable {
     )
     private String phoneNumber;
 
-    @Size(min = 10, max = 15, message = "Secondary phone number must be between 10 and 15 characters")
-    @Schema(
-            description = "Secondary phone number of the user",
-            example = "+0987654321",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private String secondPhoneNumber;
+
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Schema(

@@ -13,11 +13,9 @@ public class UserMapper {
                 .description(dto.getDescription())
                 .email(dto.getEmail())
                 .gender(dto.getGender())
-                .isVerified(dto.getIsVerified())
                 .phoneNumber(dto.getPhoneNumber())
                 .profilePicture(dto.getProfilePicture())
                 .role(dto.getRole())
-                .secondPhoneNumber(dto.getSecondPhoneNumber())
                 .build();
     }
     public static UserDto toDto(User user){
@@ -29,11 +27,9 @@ public class UserMapper {
                 .description(user.getDescription())
                 .email(user.getEmail())
                 .gender(user.getGender())
-                .isVerified(user.getIsVerified())
                 .phoneNumber(user.getPhoneNumber())
                 .profilePicture(user.getProfilePicture())
                 .role(user.getRole())
-                .secondPhoneNumber(user.getSecondPhoneNumber())
                 .build();
     }
     public static UserDto toLightDto(User user){

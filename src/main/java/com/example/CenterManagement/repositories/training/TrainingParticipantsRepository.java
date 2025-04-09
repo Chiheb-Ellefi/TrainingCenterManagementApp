@@ -12,6 +12,6 @@ public interface TrainingParticipantsRepository extends JpaRepository<TrainingPa
 
     @Query(nativeQuery = true,value = "SELECT * FROM training_participants WHERE training_id=?1")
     List<TrainingParticipant> findAllByTrainingId(String trainingId);
-    @Query(nativeQuery = true,value = "SELECT * FROM training_participants WHERE participant_id=?1")
+    @Query(nativeQuery = true,value = "SELECT * FROM training_participants WHERE user_id=?1")
     List<TrainingParticipant> findTrainingsForParticipant(Long userId);
 }

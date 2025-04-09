@@ -53,6 +53,7 @@ public class TrainingService {
                 .description(trainingDto.getDescription())
                 .startDate(trainingDto.getStartDate())
                 .endDate(trainingDto.getEndDate())
+                .type(trainingDto.getType())
                 .trainer(trainer)
                 .build();
         Training savedTraining = trainingRepository.save(newTraining);

@@ -1,6 +1,7 @@
 package com.example.CenterManagement.dto.training;
 
 import com.example.CenterManagement.dto.user.ParticipantDto;
+import com.example.CenterManagement.dto.user.UserDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +23,9 @@ public class TrainingParticipantDto {
     private TrainingDto training;
 
     @Schema(
-            description = "The participant enrolled in the training",
-            implementation = ParticipantDto.class,
+            description = "The user enrolled in the training",
+            implementation = UserDto.class,
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private ParticipantDto participant;
+    private UserDto participant;
 }

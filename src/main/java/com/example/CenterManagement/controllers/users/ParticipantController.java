@@ -7,6 +7,7 @@ import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.ParticipantRequestData;
+import com.example.CenterManagement.services.users.EmailService;
 import com.example.CenterManagement.services.users.ParticipantService;
 import com.example.CenterManagement.utils.RandomPasswordGenerator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,10 +28,11 @@ import java.util.List;
 @RequestMapping("/api/v1/participants")
 public class ParticipantController {
     private final ParticipantService participantService;
-
+    private final EmailService emailService;
     @Autowired
-    public ParticipantController(ParticipantService participantService) {
+    public ParticipantController(ParticipantService participantService,EmailService emailService) {
         this.participantService = participantService;
+        this.emailService = emailService;
     }
 
     @Operation(
@@ -94,10 +96,8 @@ public class ParticipantController {
                 .description(data.getDescription())
                 .dateOfBirth(data.getDateOfBirth())
                 .phoneNumber(data.getPhoneNumber())
-                .secondPhoneNumber(data.getSecondPhoneNumber())
                 .role(Role.PARTICIPANT)
                 .password(password)
-                .isVerified(false)
                 .gender(data.getGender())
                 .profilePicture(data.getProfilePicture())
                 .build();
@@ -107,6 +107,7 @@ public class ParticipantController {
                 .profile(data.getProfile())
                 .build();
         ParticipantDto participant = participantService.createParticipant(participantDto);
+        emailService.sendSimpleEmail(user.getEmail(), "An account with this email have been created",password);
         return new ResponseEntity<>(participant, HttpStatus.CREATED);
     }
 
@@ -147,8 +148,7 @@ public class ParticipantController {
                 .userId(participant.getUser().getUserId())
                 .gender(data.getGender() != null ? data.getGender() : oldUser.getGender())
                 .phoneNumber(data.getPhoneNumber() != null ? data.getPhoneNumber() : oldUser.getPhoneNumber())
-                .secondPhoneNumber(data.getSecondPhoneNumber() != null ? data.getSecondPhoneNumber() : oldUser.getSecondPhoneNumber())
-                .isVerified(data.getIsVerified() != null ? data.getIsVerified() : oldUser.getIsVerified())
+
                 .profilePicture(data.getProfilePicture() != null ? data.getProfilePicture() : oldUser.getProfilePicture())
                 .build();
         ParticipantDto newParticipant = ParticipantDto.builder()

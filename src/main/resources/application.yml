@@ -24,6 +24,17 @@ spring:
     user:
       name: user
       password: user
+  mail:
+    host: smtp-relay.brevo.com
+    port: 587
+    username: chihebellefi111@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    password: FZrEvjpXqV4J1th8
 
 server:
   port: 5000

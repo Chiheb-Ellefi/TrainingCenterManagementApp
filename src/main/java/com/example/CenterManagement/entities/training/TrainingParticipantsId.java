@@ -13,15 +13,15 @@ import java.util.Objects;
 public class TrainingParticipantsId implements Serializable {
 
     private String trainingId;
-    private Long participantId;
+    private Long userId;
 
 
 
     public TrainingParticipantsId() {}
 
-    public TrainingParticipantsId(String trainingId, Long participantId) {
+    public TrainingParticipantsId(String trainingId, Long userId) {
         this.trainingId = trainingId;
-        this.participantId = participantId;
+        this.userId = userId;
     }
 
     @Override
@@ -30,11 +30,11 @@ public class TrainingParticipantsId implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TrainingParticipantsId that = (TrainingParticipantsId) o;
         return Objects.equals(trainingId, that.trainingId) &&
-                Objects.equals(participantId, that.participantId);
+                Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(trainingId, participantId);
+        return Objects.hash(trainingId, userId);
     }
 }

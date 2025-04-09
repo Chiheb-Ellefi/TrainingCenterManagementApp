@@ -1,10 +1,12 @@
 package com.example.CenterManagement.models;
 
+import com.example.CenterManagement.entities.training.Type;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -39,6 +41,26 @@ public class TrainingRequestData {
     )
     private Date endDate;
 
+    @NotNull(message = "Start time cannot be null")
+    @Schema(
+            description = "Start time of the training",
+            example = "09:00",
+            type = "string",
+            format = "time",
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    private LocalTime startTime;
+
+    @NotNull(message = "End time cannot be null")
+    @Schema(
+            description = "End time of the training",
+            example = "12:00",
+            type = "string",
+            format = "time",
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    private LocalTime endTime;
+
     @Schema(
             description = "Description of the training",
             example = "A comprehensive workshop on strength training techniques",
@@ -49,10 +71,19 @@ public class TrainingRequestData {
     @NotBlank(message = "Domain name cannot be blank")
     @Schema(
             description = "Name of the domain associated with the training",
-            example = "Fitness",
+            example = "Strength Training",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
     private String domainName;
+
+    @NotNull(message = "Training type cannot be null")
+    @Schema(
+            description = "Type of the training (only applicable if type is HYBRID, REMOTE, ONSITE)",
+            example = "HYBRID",
+            allowableValues = {"HYBRID", "REMOTE", "ONSITE"},
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    private Type type;
 
     @NotNull(message = "Trainer ID cannot be null")
     @Schema(

@@ -1,21 +1,22 @@
 package com.example.CenterManagement.controllers.users;
 
-import com.example.CenterManagement.annotations.users.CheckInCache;
+
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
+import com.example.CenterManagement.models.EmailRequestData;
 import com.example.CenterManagement.models.UserRequestData;
 import com.example.CenterManagement.services.training.TrainingEnrollmentService;
+import com.example.CenterManagement.services.users.EmailService;
 import com.example.CenterManagement.services.users.ParticipantService;
 import com.example.CenterManagement.services.users.TrainerService;
 import com.example.CenterManagement.services.users.UserService;
 import com.example.CenterManagement.utils.EnumsHelperMethods;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,12 +37,15 @@ public class UserController {
     private final ParticipantService participantService;
     private final TrainerService trainerService;
     private final TrainingEnrollmentService trainingEnrollmentService;
+    private final EmailService emailService;
     @Autowired
-    public UserController(UserService userService, ParticipantService participantService, TrainerService trainerService, TrainingEnrollmentService trainingEnrollmentService) {
+    public UserController(UserService userService, ParticipantService participantService, TrainerService trainerService,
+                          TrainingEnrollmentService trainingEnrollmentService,EmailService emailService) {
         this.userService = userService;
         this.participantService = participantService;
         this.trainerService = trainerService;
         this.trainingEnrollmentService = trainingEnrollmentService;
+        this.emailService = emailService;
     }
 
     @Operation(
@@ -110,10 +114,8 @@ public class UserController {
                 .password(data.getPassword())
                 .role(data.getRole())
                 .description(data.getDescription())
-                .isVerified(false)
                 .dateOfBirth(data.getDateOfBirth())
                 .phoneNumber(data.getPhoneNumber())
-                .secondPhoneNumber(data.getSecondPhoneNumber())
                 .gender(data.getGender())
                 .profilePicture(data.getProfilePicture())
                 .build();
@@ -172,8 +174,6 @@ public class UserController {
                 .userId(userId)
                 .gender(userDto.getGender() != null ? userDto.getGender() : oldUser.getGender())
                 .phoneNumber(userDto.getPhoneNumber() != null ? userDto.getPhoneNumber() : oldUser.getPhoneNumber())
-                .secondPhoneNumber(userDto.getSecondPhoneNumber() != null ? userDto.getSecondPhoneNumber() : oldUser.getSecondPhoneNumber())
-                .isVerified(userDto.getIsVerified() != null ? userDto.getIsVerified() : oldUser.getIsVerified())
                 .profilePicture(userDto.getProfilePicture() != null ? userDto.getProfilePicture() : oldUser.getProfilePicture())
                 .build();
         UserDto response=userService.updateUser(updatedUser);
@@ -212,5 +212,8 @@ public class UserController {
         List<TrainingDto> enrollments=trainingEnrollmentService.getParticipantsEnrollment(id);
         return ResponseEntity.ok(enrollments);
     }
+
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.CenterManagement.entities.training;
 
 import com.example.CenterManagement.entities.user.Participant;
+import com.example.CenterManagement.entities.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,8 +22,8 @@ public class TrainingParticipant {
     private Training training;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId("participantId")
-    @JoinColumn(name = "participant_id", referencedColumnName = "participantId")
-    private Participant participant;
+    @MapsId("userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private User participant;
 
 }
