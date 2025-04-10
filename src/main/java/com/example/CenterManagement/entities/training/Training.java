@@ -30,6 +30,8 @@ public class Training {
     private String description;
     private String domainName;
     @Column(nullable = false)
+    private Long price;
+    @Column(nullable = false)
     private LocalTime startTime;
     @Column(nullable = false)
     private LocalTime endTime;

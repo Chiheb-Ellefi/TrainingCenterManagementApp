@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-//add the training not found exception
+
 @Service
 public class TrainingService {
     private final TrainingRepository trainingRepository;
@@ -54,6 +54,9 @@ public class TrainingService {
                 .startDate(trainingDto.getStartDate())
                 .endDate(trainingDto.getEndDate())
                 .type(trainingDto.getType())
+                .startTime(trainingDto.getStartTime())
+                .price(trainingDto.getPrice())
+                .endTime(trainingDto.getEndTime())
                 .trainer(trainer)
                 .build();
         Training savedTraining = trainingRepository.save(newTraining);

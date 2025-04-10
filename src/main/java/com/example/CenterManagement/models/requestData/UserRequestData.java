@@ -1,4 +1,4 @@
-package com.example.CenterManagement.models;
+package com.example.CenterManagement.models.requestData;
 
 import com.example.CenterManagement.entities.user.Gender;
 import com.example.CenterManagement.entities.user.Role;

@@ -1,4 +1,4 @@
-package com.example.CenterManagement.models;
+package com.example.CenterManagement.models.requestData;
 
 import com.example.CenterManagement.entities.training.Type;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +30,13 @@ public class TrainingRequestData {
             requiredMode = Schema.RequiredMode.REQUIRED
     )
     private Date startDate;
-
+    @NotNull(message = "Price cannot be null")
+    @Schema(
+            description = "Price of the training in the smallest currency unit (e.g., cents)",
+            example = "50000", // 500.00 in display
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    private Long price;
     @NotNull(message = "End date cannot be null")
     @Schema(
             description = "End date of the training",

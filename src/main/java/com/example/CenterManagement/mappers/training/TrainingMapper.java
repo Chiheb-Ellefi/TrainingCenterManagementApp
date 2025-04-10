@@ -13,6 +13,7 @@ public class TrainingMapper {
                 .endDate(trainingDto.getEndDate())
                 .title(trainingDto.getTitle())
                 .type(trainingDto.getType())
+                .price(trainingDto.getPrice())
                 .domainName(trainingDto.getDomainName())
                 .trainer(TrainerMapper.toEntity(trainingDto.getTrainer()))
                 .build();
@@ -23,6 +24,7 @@ public class TrainingMapper {
                 .description(training.getDescription())
                 .startDate(training.getStartDate())
                 .endDate(training.getEndDate())
+                .price(training.getPrice())
                 .title(training.getTitle())
                 .type(training.getType())
                 .domainName(training.getDomainName())

@@ -4,7 +4,7 @@ import com.example.CenterManagement.annotations.training.CheckInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
-import com.example.CenterManagement.models.TrainingRequestData;
+import com.example.CenterManagement.models.requestData.TrainingRequestData;
 import com.example.CenterManagement.services.training.TrainingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -94,6 +94,10 @@ public class TrainingController {
                 .endDate(data.getEndDate())
                 .description(data.getDescription())
                 .type(data.getType())
+                .price(data.getPrice())
+                .endTime(data.getEndTime())
+                .startTime(data.getStartTime())
+                .price(data.getPrice())
                 .domainName(data.getDomainName())
                 .build();
 
@@ -138,6 +142,9 @@ public class TrainingController {
                 .endDate(data.getEndDate() != null ? data.getEndDate() : oldTraining.getEndDate())
                 .description(data.getDescription() != null ? data.getDescription() : oldTraining.getDescription())
                 .domainName(data.getDomainName() != null ? data.getDomainName() : oldTraining.getDomainName())
+                .startTime(data.getStartTime() != null ? data.getStartTime() : oldTraining.getStartTime())
+                .endTime(data.getEndTime() != null ? data.getEndTime() : oldTraining.getEndTime())
+                .price(data.getPrice() != null ? data.getPrice() : oldTraining.getPrice())
                 .type(data.getType() != null ? data.getType() : oldTraining.getType())
                 .build();
 

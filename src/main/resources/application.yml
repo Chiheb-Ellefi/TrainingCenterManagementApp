@@ -4,21 +4,30 @@ spring:
     offset: 10
     ttl: 120
 
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: postgres
-    password: password
+    url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres
+    username: postgres.hnkqawkynropwthullll
+    password: despacito123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 
   data:
     redis:
-      client-name: default
-      host: localhost
-      port: 9000
+      username: default
+      port: 15941
+      password: 1GcwEcoAa1AGt62hcpzxKmyIj3NNldgR
+      host: redis-15941.c250.eu-central-1-1.ec2.redns.redis-cloud.com
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
+
+
 
   security:
     user:

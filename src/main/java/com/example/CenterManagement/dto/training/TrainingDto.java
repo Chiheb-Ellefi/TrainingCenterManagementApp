@@ -115,6 +115,12 @@ public class TrainingDto implements Serializable {
             requiredMode = Schema.RequiredMode.REQUIRED
     )
     private TrainerDto trainer;
+
+    @NotNull(message = "Price cannot be null")
+    @Schema(
+            description = "Price of the training in the smallest currency unit (e.g., cents)",
+            example = "50000", // 500.00 in display
+            requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    private Long price;
 }
-
-
