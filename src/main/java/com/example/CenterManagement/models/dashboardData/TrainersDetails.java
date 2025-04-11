@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +13,6 @@ public class TrainersDetails {
     private Long nbTrainers;
     private int internalTrainersCount;
     private int externalTrainersCount;
-    private HashMap<String, Long> topTrainers;
+    private List<TopUsers> topTrainers;
 
 }

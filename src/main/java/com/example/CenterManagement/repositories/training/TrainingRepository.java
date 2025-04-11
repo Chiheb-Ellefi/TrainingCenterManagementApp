@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TrainingRepository extends JpaRepository<Training, String> {
 
-
-    /*long getTotalIncome();*/
 }

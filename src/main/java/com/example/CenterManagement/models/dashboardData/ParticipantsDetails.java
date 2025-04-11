@@ -4,12 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 public class ParticipantsDetails {
     private Long nbParticipants;
-    private HashMap<String, Long> topParticipants;
+    private List<TopUsers> topParticipants;
+    private List<TopUsers> topParticipantsWithDomains;
 
 }

@@ -3,9 +3,7 @@ package com.example.CenterManagement.services.users;
 import com.example.CenterManagement.entities.user.Gender;
 import com.example.CenterManagement.entities.user.TrainerType;
 import com.example.CenterManagement.models.OtherDetails;
-import com.example.CenterManagement.models.dashboardData.ParticipantsDetails;
-import com.example.CenterManagement.models.dashboardData.TrainersDetails;
-import com.example.CenterManagement.models.dashboardData.TrainingsDetails;
+import com.example.CenterManagement.models.dashboardData.*;
 import com.example.CenterManagement.repositories.training.TrainingParticipantsRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
 import com.example.CenterManagement.repositories.users.ParticipantRepository;
@@ -15,7 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Transactional
@@ -54,14 +52,17 @@ public TrainersDetails getTrainersDetails(){
     long nbTrainers=trainerRepository.count();
      int internalTrainersCount= trainerRepository.countByTrainerType(TrainerType.INTERNAL);
      int externalTrainersCount= trainerRepository.countByTrainerType(TrainerType.EXTERNAL);
-     HashMap<String, Long> topTrainers = null;
+    List<TopUsers> topTrainers=trainingParticipantsRepository.getTopTrainers();
      return TrainersDetails.builder()
                      .externalTrainersCount(externalTrainersCount).internalTrainersCount(internalTrainersCount)
              .topTrainers(topTrainers).nbTrainers(nbTrainers).build();
 }
 public ParticipantsDetails getParticipantsDetails(){
     long nbParticipants=participantRepository.count();
-    return ParticipantsDetails.builder().nbParticipants(nbParticipants).build();
+    List<TopUsers> topParticipants=trainingParticipantsRepository.getTopParticipants();
+List<TopUsers> topParticipantsWithDomains=trainingParticipantsRepository.getTopParticipantsWithDomains();
+    return ParticipantsDetails.builder().nbParticipants(nbParticipants).topParticipants(topParticipants).topParticipantsWithDomains(topParticipantsWithDomains).build();
 }
+
 
 }
