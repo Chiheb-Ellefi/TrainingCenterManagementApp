@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     int countByGender(Gender gender);
-
+    User findByEmail( String email);
 }

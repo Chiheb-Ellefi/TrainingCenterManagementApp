@@ -52,4 +52,8 @@ public class UserService {
         userRepository.deleteById(id);
 
     }
+
+    public UserDto getUserByEmail(String email) {
+        return UserMapper.toDto(userRepository.findByEmail(email));
+    }
 }

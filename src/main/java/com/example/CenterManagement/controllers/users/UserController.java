@@ -5,15 +5,13 @@ import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
-import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.requestData.UserRequestData;
 import com.example.CenterManagement.services.training.TrainingEnrollmentService;
 import com.example.CenterManagement.services.users.EmailService;
-import com.example.CenterManagement.services.users.ParticipantService;
-import com.example.CenterManagement.services.users.TrainerService;
 import com.example.CenterManagement.services.users.UserService;
 import com.example.CenterManagement.utils.EnumsHelperMethods;
+import com.example.CenterManagement.utils.RandomPasswordGenerator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -25,6 +23,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,18 +32,16 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
-    private final ParticipantService participantService;
-    private final TrainerService trainerService;
     private final TrainingEnrollmentService trainingEnrollmentService;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserController(UserService userService, ParticipantService participantService, TrainerService trainerService,
-                          TrainingEnrollmentService trainingEnrollmentService,EmailService emailService) {
+    public UserController(UserService userService, TrainingEnrollmentService trainingEnrollmentService,EmailService emailService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.participantService = participantService;
-        this.trainerService = trainerService;
+
         this.trainingEnrollmentService = trainingEnrollmentService;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Operation(
@@ -83,7 +80,7 @@ public class UserController {
     @Operation(
             summary = "Create a new user",
             description = "Creates a new user with the provided role. Depending on the role, the response body varies: " +
-                    "ADMIN/MANAGER → UserDto, TRAINER → TrainerDto, PARTICIPANT → ParticipantDto.",
+                    "ADMIN/MANAGER → UserDto",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "The necessary attributes to create a new user",
             content = @Content(schema = @Schema(implementation = UserRequestData.class)))
@@ -107,10 +104,11 @@ public class UserController {
         if(wrongRequest){
             throw new BadRequestException("Invalid input data, please try again");
         }
+        String password = RandomPasswordGenerator.generateRandomPassword();
         UserDto userDto=UserDto.builder()
                 .username(data.getUsername())
                 .email(data.getEmail())
-                .password(data.getPassword())
+                .password(passwordEncoder.encode(password))
                 .role(data.getRole())
                 .description(data.getDescription())
                 .dateOfBirth(data.getDateOfBirth())
@@ -118,26 +116,8 @@ public class UserController {
                 .gender(data.getGender())
                 .profilePicture(data.getProfilePicture())
                 .build();
-        if(userDto.getRole()== Role.PARTICIPANT){
-            ParticipantDto participantDto=ParticipantDto.builder()
-                    .user(userDto)
-                    .structure(data.getStructure())
-                    .profile(data.getProfile())
-                    .build();
-           ParticipantDto participant= participantService.createParticipant(participantDto);
-            return new ResponseEntity<>(participant, HttpStatus.CREATED);
-        }
-        if(userDto.getRole()== Role.TRAINER){
-            TrainerDto trainerDto=TrainerDto.builder()
-                    .user(userDto)
-                    .employerName(data.getEmployerName())
-                    .trainerType(data.getTrainerType())
-                    .build();
-           TrainerDto trainer= trainerService.createTrainer(trainerDto);
-            return new ResponseEntity<>(trainer, HttpStatus.CREATED);
-        }
-
         UserDto response=userService.createUser(userDto);
+        emailService.sendSimpleEmail(userDto.getEmail(), "An account with this email have been created",password);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     @Operation(

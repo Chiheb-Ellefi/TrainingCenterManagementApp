@@ -97,36 +97,6 @@ public class UserRequestData {
     )
     private String description;
 
-    @Schema(
-            description = "Type of the trainer (only applicable if role is TRAINER)",
-            example = "INTERNAL",
-            allowableValues = {"INTERNAL", "EXTERNAL"},
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private TrainerType trainerType;
 
-    @Schema(
-            description = "Name of the employer (only applicable if role is TRAINER)",
-            example = "FitLife Gym",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private String employerName;
 
-    @NotBlank(message = "Structure name cannot be blank (only applicable if role is PARTICIPANT)")
-    @Size(min = 1, max = 100, message = "Structure name must be between 1 and 100 characters")
-    @Schema(
-            description = "Name of the structure associated with the user (only applicable if role is PARTICIPANT)",
-            example = "FitLife Gym",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private String structure;
-
-    @NotBlank(message = "Profile cannot be blank (only applicable if role is PARTICIPANT)")
-    @Size(min = 1, max = 100, message = "Profile must be between 1 and 100 characters")
-    @Schema(
-            description = "Profile of the user (only applicable if role is PARTICIPANT)",
-            example = "Fitness Enthusiast",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED
-    )
-    private String profile;
 }
