@@ -54,6 +54,6 @@ public class UserService {
     }
 
     public UserDto getUserByEmail(String email) {
-        return UserMapper.toDto(userRepository.findByEmail(email));
+        return UserMapper.toDto(userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found with email: " + email)));
     }
 }

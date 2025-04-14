@@ -5,6 +5,7 @@ import com.example.CenterManagement.models.dashboardData.TrainersDetails;
 import com.example.CenterManagement.models.dashboardData.TrainingsDetails;
 import com.example.CenterManagement.services.users.DashboardService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

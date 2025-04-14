@@ -53,7 +53,7 @@ public class AuthenticationController {
         response.put("email", userDto.getEmail());
         response.put("token", token);
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity(response,HttpStatus.ACCEPTED);
     }
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRequestData data) throws BadRequestException {
