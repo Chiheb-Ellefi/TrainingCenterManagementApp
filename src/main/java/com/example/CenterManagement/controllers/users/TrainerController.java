@@ -159,7 +159,7 @@ public class TrainerController {
                 .employerName(data.getEmployerName() != null ? data.getEmployerName() : oldTrainer.getEmployerName())
                 .build();
         TrainerDto trainer = trainerService.updateTrainer(newTrainer, newUser);
-        return new ResponseEntity<>(trainer, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(trainer, HttpStatus.OK);
     }
 
     @Operation(

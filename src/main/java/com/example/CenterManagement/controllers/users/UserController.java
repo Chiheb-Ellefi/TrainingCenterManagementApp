@@ -156,7 +156,7 @@ public class UserController {
                 .profilePicture(userDto.getProfilePicture() != null ? userDto.getProfilePicture() : oldUser.getProfilePicture())
                 .build();
         UserDto response=userService.updateUser(updatedUser);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @Operation(
             summary = "Delete a user by ID",

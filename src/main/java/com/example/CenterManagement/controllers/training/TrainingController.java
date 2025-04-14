@@ -150,7 +150,7 @@ public class TrainingController {
 
         Long trainerId = data.getTrainerId() != null ? data.getTrainerId() : oldTraining.getTrainer().getTrainerId();
         TrainingDto updatedTraining = trainingService.createTraining(newTraining, trainerId);
-        return new ResponseEntity<>(updatedTraining, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(updatedTraining, HttpStatus.OK);
     }
 
     @Operation(

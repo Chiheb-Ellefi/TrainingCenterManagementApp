@@ -158,7 +158,7 @@ public class ParticipantController {
                 .profile(data.getProfile() != null ? data.getProfile() : participant.getProfile())
                 .build();
         ParticipantDto participantDto = participantService.updateParticipant(newParticipant);
-        return new ResponseEntity<>(participantDto, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(participantDto, HttpStatus.OK);
     }
 
     @Operation(
