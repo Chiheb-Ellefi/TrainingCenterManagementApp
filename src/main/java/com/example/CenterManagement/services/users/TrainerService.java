@@ -39,7 +39,7 @@ public class TrainerService {
     }
 
     public TrainerDto getTrainer(Long id) {
-        return TrainerMapper.toLightDto(trainerRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trainer not found")));
+        return TrainerMapper.toDto(trainerRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trainer not found")));
     }
     @Transactional
     public TrainerDto  createTrainer(TrainerDto trainerDto) {
