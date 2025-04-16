@@ -4,6 +4,7 @@ import com.example.CenterManagement.models.dashboardData.ParticipantsDetails;
 import com.example.CenterManagement.models.dashboardData.TrainersDetails;
 import com.example.CenterManagement.models.dashboardData.TrainingsDetails;
 import com.example.CenterManagement.services.users.DashboardService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/v1/dashboard")
 public class DashboardController {
     private final DashboardService dashboardService;
