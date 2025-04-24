@@ -1,6 +1,7 @@
 package com.example.CenterManagement.controllers.users;
 
 
+import com.example.CenterManagement.annotations.users.UpdateUserInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
@@ -137,6 +138,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found",content = @Content(mediaType = "text/plain"))
     })
     @PatchMapping("/{userId}")
+    @UpdateUserInCache
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable Long userId) throws BadRequestException {
         if(userId==null){
             throw new BadRequestException("Invalid user Id, please try again");

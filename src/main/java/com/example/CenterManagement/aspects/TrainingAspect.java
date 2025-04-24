@@ -1,5 +1,6 @@
 package com.example.CenterManagement.aspects;
 
+import com.example.CenterManagement.annotations.training.UpdateTrainingInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.repositories.training.TrainingCacheRepository;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -46,5 +47,13 @@ public class TrainingAspect {
             return (String) arg;
         }
         return null;
+    }
+    @Around("@annotation(updateTrainingInCache)")
+    public Object updateTrainingInCache(ProceedingJoinPoint joinPoint, UpdateTrainingInCache updateTrainingInCache) throws Throwable {
+        ResponseEntity<?> response=(ResponseEntity<?>) joinPoint.proceed();
+        if(response.getStatusCode().equals(HttpStatus.OK )&& response.getBody() instanceof TrainingDto){
+            trainingCacheRepository.addTrainingToCache((TrainingDto) response.getBody());
+        }
+        return response;
     }
 }

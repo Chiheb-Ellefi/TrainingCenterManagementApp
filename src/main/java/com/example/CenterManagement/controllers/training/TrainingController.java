@@ -1,6 +1,7 @@
 package com.example.CenterManagement.controllers.training;
 
 import com.example.CenterManagement.annotations.training.CheckInCache;
+import com.example.CenterManagement.annotations.training.UpdateTrainingInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
@@ -124,6 +125,7 @@ public class TrainingController {
                     content = @Content(mediaType = "text/plain"))
     })
     @PatchMapping("/{id}")
+    @UpdateTrainingInCache
     public ResponseEntity<TrainingDto> updateTraining(@PathVariable("id") String id, @RequestBody TrainingRequestData data) {
         if (id == null) {
             throw new BadRequestException("Training id cannot be null");

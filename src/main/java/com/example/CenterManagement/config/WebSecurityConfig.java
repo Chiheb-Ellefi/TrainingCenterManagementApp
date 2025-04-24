@@ -84,6 +84,8 @@ public class WebSecurityConfig {
                                 .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.MANAGER.name(),Role.TRAINER.name())
                                 .requestMatchers("/api/v1/trainings/**")
                                 .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.MANAGER.name(),Role.TRAINER.name())
+                                .requestMatchers("/api/v1/auth/logout")
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.MANAGER.name(),Role.TRAINER.name())
                                 .anyRequest().authenticated()
                 );
 

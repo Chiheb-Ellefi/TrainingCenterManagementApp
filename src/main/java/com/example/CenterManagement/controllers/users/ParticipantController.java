@@ -1,6 +1,7 @@
 package com.example.CenterManagement.controllers.users;
 
 import com.example.CenterManagement.annotations.users.CheckInCache;
+import com.example.CenterManagement.annotations.users.UpdateUserInCache;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
@@ -128,6 +129,7 @@ public class ParticipantController {
             @ApiResponse(responseCode = "404", description = "Participant not found", content = @Content(mediaType = "text/plain"))
     })
     @PatchMapping("/{id}")
+    @UpdateUserInCache
     public ResponseEntity<ParticipantDto> updateParticipant(@PathVariable Long id, @RequestBody ParticipantRequestData data) {
         if (id == null) {
             throw new BadRequestException("Provided participantId is null ");

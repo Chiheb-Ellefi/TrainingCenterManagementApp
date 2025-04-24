@@ -2,12 +2,12 @@ package com.example.CenterManagement.security;
 
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.services.users.CustomUserDetailsService;
+import com.example.CenterManagement.services.users.UserService;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,13 +24,18 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private  JwtUtils jwtUtils;
     @Autowired
    private  CustomUserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response,@Nonnull FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            if (jwt != null && jwtUtils.validateJwtToken(jwt) ) {
+                if(userService.isTokenUnValid(jwt)){
+                    throw new RuntimeException("User Logged out");
+                }
                 UserDto user = jwtUtils.extractUserDetails(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
                 UsernamePasswordAuthenticationToken authentication =

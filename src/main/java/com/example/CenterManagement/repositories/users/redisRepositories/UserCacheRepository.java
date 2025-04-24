@@ -17,6 +17,8 @@ public class UserCacheRepository {
     private final ObjectMapper objectMapper;
     @Value("${spring.application.ttl}")
     private Long ttl;
+    @Value("${jwt.expiration}")
+    private Long expiration;
     @Autowired
     public UserCacheRepository(RedisTemplate<String, String> redisTemplate, ObjectMapper objectMapper) {
         this.redisTemplate = redisTemplate;
@@ -43,5 +45,11 @@ public class UserCacheRepository {
           return   objectMapper.readValue(userJson, TrainerDto.class).getUser();
        }*/
         return null;
+    }
+    public void addTokenToBlackList(String token) {
+        redisTemplate.opsForSet().add("blacklist", token);
+    }
+    public boolean tokenInBlackList(String token) {
+        return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember("blacklist", token));
     }
 }

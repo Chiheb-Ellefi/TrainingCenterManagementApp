@@ -3,6 +3,7 @@ package com.example.CenterManagement.services.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,10 +11,10 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     @Autowired
-    EmailService(JavaMailSender mailSender) {
+    EmailService(JavaMailSender mailSender){
         this.mailSender = mailSender;
     }
-
+    @Async
     public void sendSimpleEmail(String toEmail, String subject, String password) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("TrainingCentermanagement@gmail.com");

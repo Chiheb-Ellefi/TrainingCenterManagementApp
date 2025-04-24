@@ -6,6 +6,8 @@ import com.example.CenterManagement.models.requestData.UserRequestData;
 import com.example.CenterManagement.security.JwtUtils;
 import com.example.CenterManagement.services.users.UserService;
 import com.example.CenterManagement.utils.EnumsHelperMethods;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -14,10 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class AuthenticationController {
                 )
         );
 
-         authentication.getPrincipal();
+        authentication.getPrincipal();
         UserDto userDto = userService.getUserByEmail(data.getEmail());
         String token = jwtUtils.generateToken(userDto);
         Map<String, Object> response = new HashMap<>();
@@ -74,5 +73,13 @@ public class AuthenticationController {
                 .build();
         UserDto response=userService.createUser(userDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @SecurityRequirement(name = "bearerAuth")
+    @DeleteMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request) {
+       String token= request.getHeader("Authorization").split("Bearer ")[1];
+       log.info(token);
+        userService.addTokenToBlackList(token);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

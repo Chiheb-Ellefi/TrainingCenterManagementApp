@@ -1,6 +1,7 @@
 package com.example.CenterManagement.aspects;
 
 import com.example.CenterManagement.annotations.users.CheckInCache;
+import com.example.CenterManagement.annotations.users.UpdateUserInCache;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
@@ -46,6 +47,23 @@ private final TrainerCacheRepository trainerRepository;
 
         ResponseEntity<?> response = (ResponseEntity<?>) joinPoint.proceed();
 
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            if (response.getBody() instanceof UserDto) {
+                userCacheRepository.addUserToCache((UserDto) response.getBody());
+            }
+            if(response.getBody() instanceof ParticipantDto){
+                participantRepository.addParticipantToCache((ParticipantDto) response.getBody());
+            }
+            if(response.getBody() instanceof TrainerDto){
+                trainerRepository.addTrainerToCache((TrainerDto) response.getBody());
+            }
+        }
+        return response;
+    }
+
+    @Around("@annotation(updateUserInCache)")
+    public Object updateUserCache(ProceedingJoinPoint joinPoint, UpdateUserInCache updateUserInCache) throws Throwable {
+       ResponseEntity<?> response=(ResponseEntity<?>) joinPoint.proceed();
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
             if (response.getBody() instanceof UserDto) {
                 userCacheRepository.addUserToCache((UserDto) response.getBody());

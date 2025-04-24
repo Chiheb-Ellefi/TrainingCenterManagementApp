@@ -1,6 +1,7 @@
 package com.example.CenterManagement.controllers.users;
 
 import com.example.CenterManagement.annotations.users.CheckInCache;
+import com.example.CenterManagement.annotations.users.UpdateUserInCache;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
@@ -130,6 +131,7 @@ public class TrainerController {
             @ApiResponse(responseCode = "404", description = "Trainer not found", content = @Content(mediaType = "text/plain"))
     })
     @PatchMapping("/{id}")
+    @UpdateUserInCache
     public ResponseEntity<TrainerDto> updateTrainer(@PathVariable Long id, @RequestBody TrainerRequestData data) {
         if (data == null) {
             throw new BadRequestException("The provided trainer is null");
