@@ -1,9 +1,8 @@
 package com.example.CenterManagement.mappers.user;
 
 import com.example.CenterManagement.dto.user.TrainerDto;
-import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Trainer;
-import com.example.CenterManagement.entities.user.User;
+
 
 public class TrainerMapper {
     public static TrainerDto toDto(Trainer trainer) {
@@ -28,6 +27,12 @@ public class TrainerMapper {
                 .user(UserMapper.toEntity(trainerDto.getUser()))
                 .trainerType(trainerDto.getTrainerType())
                 .employerName(trainerDto.getEmployerName())
+                .build();
+    }
+    public static TrainerDto toLightestDto(Trainer trainer) {
+        return TrainerDto.builder()
+                .trainerId(trainer.getTrainerId())
+                .user(UserMapper.toLightestDto(trainer.getUser()))
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package com.example.CenterManagement.dto.user;
 
 import com.example.CenterManagement.entities.user.TrainerType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "Data transfer object for trainer")
 public class TrainerDto {
 

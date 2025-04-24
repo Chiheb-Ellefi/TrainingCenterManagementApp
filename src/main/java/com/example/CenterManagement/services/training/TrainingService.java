@@ -62,6 +62,9 @@ public class TrainingService {
         Training savedTraining = trainingRepository.save(newTraining);
         return TrainingMapper.toDto(savedTraining);
     }
+    public List<TrainingDto> getTrainingsByTrainerId(Long trainerId) {
+       return  trainingRepository.getTrainingsByTrainerId(trainerId).stream().map(TrainingMapper::toDto).toList();
+    }
 
 
     public void deleteTrainingById(String id) {

@@ -2,12 +2,14 @@ package com.example.CenterManagement.controllers.users;
 
 import com.example.CenterManagement.annotations.users.CheckInCache;
 import com.example.CenterManagement.annotations.users.UpdateUserInCache;
+import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.requestData.TrainerRequestData;
+import com.example.CenterManagement.services.training.TrainingService;
 import com.example.CenterManagement.services.users.EmailService;
 import com.example.CenterManagement.services.users.TrainerService;
 import com.example.CenterManagement.utils.RandomPasswordGenerator;
@@ -33,10 +35,12 @@ public class TrainerController {
 
     private final TrainerService trainerService;
     private final EmailService emailService;
+    private final TrainingService trainingService;
     @Autowired
-    public TrainerController(TrainerService trainerService,EmailService emailService) {
+    public TrainerController(TrainerService trainerService,EmailService emailService,TrainingService trainingService) {
         this.trainerService = trainerService;
         this.emailService = emailService;
+        this.trainingService = trainingService;
     }
 
     @Operation(
@@ -164,6 +168,16 @@ public class TrainerController {
                 .build();
         TrainerDto trainer = trainerService.updateTrainer(newTrainer, newUser);
         return new ResponseEntity<>(trainer, HttpStatus.OK);
+    }
+    @GetMapping("/{id}/trainings")
+        public ResponseEntity<List<TrainingDto>> getTrainings(@PathVariable Long id) {
+          List<TrainingDto> trainings=  trainingService.getTrainingsByTrainerId(id);
+          return new ResponseEntity<>(trainings, HttpStatus.OK);
+    }
+    @GetMapping("/trainers/all")
+    public ResponseEntity<List<TrainerDto>> getAllTrainers() {
+        List<TrainerDto> result=  trainerService.getAllTrainers();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Operation(

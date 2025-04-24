@@ -80,4 +80,7 @@ public class TrainerService {
         }
         trainerRepository.deleteById(id);
     }
+    public List<TrainerDto> getAllTrainers() {
+      return   trainerRepository.findAll().stream().map(TrainerMapper::toLightestDto).toList();
+    }
 }

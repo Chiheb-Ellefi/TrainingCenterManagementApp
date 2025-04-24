@@ -39,4 +39,9 @@ public class UserMapper {
                 .profilePicture(user.getProfilePicture())
                 .build();
     }
+    public static UserDto toLightestDto(User user){
+        return UserDto.builder()
+                .username(user.getUsername())
+                .build();
+    }
 }
