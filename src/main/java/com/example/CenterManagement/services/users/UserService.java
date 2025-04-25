@@ -65,4 +65,10 @@ public class UserService {
     public Boolean isTokenUnValid(String token) {
        return  userCacheRepository.tokenInBlackList(token);
     }
+    public void addResetCode(String email,String resetCode) {
+        userCacheRepository.addResetCode(email,resetCode);
+    }
+    public Boolean isResetCodeValid(String email, String resetCode) {
+        return userCacheRepository.resetCodeIsValid(email,resetCode);
+    }
 }

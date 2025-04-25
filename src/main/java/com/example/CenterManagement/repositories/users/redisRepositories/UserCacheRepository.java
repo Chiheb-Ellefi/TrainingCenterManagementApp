@@ -52,4 +52,11 @@ public class UserCacheRepository {
     public boolean tokenInBlackList(String token) {
         return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember("blacklist", token));
     }
+    public void addResetCode(String email,String resetCode) {
+        redisTemplate.opsForValue().set("resetCode:" + email,resetCode,Duration.ofSeconds(1800));
+    }
+    public Boolean resetCodeIsValid(String email,String resetCode) {
+        String code = redisTemplate.opsForValue().get("resetCode:" + email);
+        return  code != null && code.equals(resetCode);
+    }
 }
