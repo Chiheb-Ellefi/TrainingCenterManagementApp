@@ -79,7 +79,7 @@ public class ParticipantRequestData {
             example = "FitLife Gym",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private Long structure;
+    private Long structureId;
 
     @NotBlank(message = "Profile cannot be blank")
     @Size(min = 1, max = 100, message = "Profile must be between 1 and 100 characters")
@@ -88,5 +88,5 @@ public class ParticipantRequestData {
             example = "Fitness Enthusiast",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private Long profile;
+    private Long profileId;
 }

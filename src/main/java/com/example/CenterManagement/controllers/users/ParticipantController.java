@@ -104,8 +104,8 @@ public class ParticipantController {
         if (data == null || data.getEmail() == null || data.getUsername() == null) {
             throw new BadRequestException("Provided participant data is null or empty");
         }
-        StructureDto structure = structureService.getStructure(data.getStructure());
-        ProfileDto profile= profileService.getProfileById(data.getProfile());
+        StructureDto structure = structureService.getStructure(data.getStructureId());
+        ProfileDto profile= profileService.getProfileById(data.getProfileId());
         String password = RandomPasswordGenerator.generateRandomPassword();
         UserDto user = UserDto.builder()
                 .email(data.getEmail())
@@ -173,8 +173,8 @@ public class ParticipantController {
         ParticipantDto newParticipant = ParticipantDto.builder()
                 .participantId(participant.getParticipantId())
                 .user(newUser)
-                .structure(data.getStructure() != null ? structureService.getStructure(data.getStructure()) : participant.getStructure())
-                .profile(data.getProfile() != null ? profileService.getProfileById(data.getProfile()) : participant.getProfile())
+                .structure(data.getStructureId() != null ? structureService.getStructure(data.getStructureId()) : participant.getStructure())
+                .profile(data.getProfileId() != null ? profileService.getProfileById(data.getProfileId()) : participant.getProfile())
                 .build();
         ParticipantDto participantDto = participantService.updateParticipant(newParticipant);
         return new ResponseEntity<>(participantDto, HttpStatus.OK);
