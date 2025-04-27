@@ -198,7 +198,7 @@ public class UserController {
         return ResponseEntity.ok(enrollments);
     }
 
-    @GetMapping
+    @GetMapping("/managers")
     public ResponseEntity<List<UserDto>> getAllManagers()  {
         List<UserDto> managers=userService.getUsersByRole(Role.MANAGER);
         return ResponseEntity.ok(managers);
