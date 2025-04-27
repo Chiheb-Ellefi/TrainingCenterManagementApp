@@ -197,7 +197,18 @@ public class UserController {
         List<TrainingDto> enrollments=trainingEnrollmentService.getParticipantsEnrollment(id);
         return ResponseEntity.ok(enrollments);
     }
-
+    @Operation(
+            summary = "Get all managers",
+            description = "Retrieves a list of all users with MANAGER role",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully retrieved managers",
+            content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = UserDto.class)))
+    )
     @GetMapping("/managers")
     public ResponseEntity<List<UserDto>> getAllManagers()  {
         List<UserDto> managers=userService.getUsersByRole(Role.MANAGER);
