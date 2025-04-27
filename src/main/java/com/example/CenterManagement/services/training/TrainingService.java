@@ -6,6 +6,7 @@ import com.example.CenterManagement.entities.user.Trainer;
 import com.example.CenterManagement.exceptions.trainings.DomainNotFoundException;
 import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
+import com.example.CenterManagement.mappers.training.DomainMapper;
 import com.example.CenterManagement.mappers.training.TrainingMapper;
 import com.example.CenterManagement.repositories.training.DomainRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
@@ -23,14 +24,12 @@ import java.util.stream.Collectors;
 public class TrainingService {
     private final TrainingRepository trainingRepository;
     private  final TrainerRepository trainerRepository;
-    private final DomainRepository domainRepository;
     @Value("${spring.application.offset}")
     private int offset;
     @Autowired
-    TrainingService(TrainingRepository trainingRepository,  TrainerRepository trainerRepository, DomainRepository domainRepository) {
+    TrainingService(TrainingRepository trainingRepository,  TrainerRepository trainerRepository) {
         this.trainingRepository = trainingRepository;
         this.trainerRepository = trainerRepository;
-        this.domainRepository = domainRepository;
     }
     public List<TrainingDto> getAllTrainings(int page) {
         return trainingRepository.findAll(PageRequest.of(page,offset)).stream().map(TrainingMapper::toDto).collect(Collectors.toList());
@@ -41,13 +40,10 @@ public class TrainingService {
 
     @Transactional
     public TrainingDto createTraining(TrainingDto trainingDto, Long trainerId) {
-        if(domainRepository.getDomainByDomainName(trainingDto.getDomainName()) == null) {
-            throw new DomainNotFoundException("Domain name "+trainingDto.getDomainName()+" does not exist");
-        }
         Trainer trainer = trainerRepository.findById(trainerId)
                 .orElseThrow(() -> new UserNotFoundException("Trainer not found with id: " + trainerId));
         Training newTraining=Training.builder()
-                .domainName(trainingDto.getDomainName())
+                .domain(DomainMapper.toEntity(trainingDto.getDomain()))
                 .trainingId(trainingDto.getTrainingId())
                 .title(trainingDto.getTitle())
                 .description(trainingDto.getDescription())

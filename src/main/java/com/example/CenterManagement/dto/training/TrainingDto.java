@@ -95,7 +95,7 @@ public class TrainingDto implements Serializable {
             example = "Fitness",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private String domainName;
+    private DomainDto domain;
 
     @NotNull(message = "Training type cannot be null")
     @Schema(
