@@ -80,7 +80,7 @@ public class TrainingRequestData {
             example = "Strength Training",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private String domainName;
+    private Long domainId;
 
     @NotNull(message = "Training type cannot be null")
     @Schema(

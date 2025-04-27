@@ -31,5 +31,8 @@ public class ProfileService {
         }
         profileRepository.deleteById(id);
     }
+    public ProfileDto getProfileById(Long id) {
+        return ProfileMapper.toDto(profileRepository.findById(id).orElseThrow(() -> new ProfileNotFoundException("Profile with id "+id+" does not exist")));
+    }
 
 }

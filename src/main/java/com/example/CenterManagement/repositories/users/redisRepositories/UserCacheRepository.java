@@ -33,7 +33,7 @@ public class UserCacheRepository {
     public UserDto getUserById(String userId) throws IOException {
         String userJson = redisTemplate.opsForValue().get("user:" + userId);
         if(userJson != null){
-            return objectMapper.readValue(userJson, UserDto.class);
+        return objectMapper.readValue(userJson, UserDto.class);
         }
        /* userJson=redisTemplate.opsForValue().get("participant:" + userId);
        if(userJson != null){

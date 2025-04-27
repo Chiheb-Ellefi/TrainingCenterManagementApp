@@ -17,7 +17,6 @@ import com.example.CenterManagement.mappers.training.TrainingParticipantMapper;
 import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.training.TrainingParticipantsRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
-import com.example.CenterManagement.repositories.users.ParticipantRepository;
 import com.example.CenterManagement.repositories.users.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

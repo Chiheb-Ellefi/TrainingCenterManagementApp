@@ -2,11 +2,15 @@ package com.example.CenterManagement.services.users;
 
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.entities.user.Participant;
+import com.example.CenterManagement.entities.user.Profile;
+import com.example.CenterManagement.entities.user.Structure;
 import com.example.CenterManagement.entities.user.User;
 import com.example.CenterManagement.exceptions.users.ProfileNotFoundException;
 import com.example.CenterManagement.exceptions.users.StructureNotFoundException;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.mappers.user.ParticipantMapper;
+import com.example.CenterManagement.mappers.user.ProfileMapper;
+import com.example.CenterManagement.mappers.user.StructureMapper;
 import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.users.ParticipantRepository;
 import com.example.CenterManagement.repositories.users.ProfileRepository;
@@ -25,31 +29,21 @@ import java.util.stream.Collectors;
 public class ParticipantService {
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
-    private final ProfileRepository profileRepository;
-    private final StructureRepository structureRepository;
     @Value("${spring.application.offset}")
     private int offset;
     @Autowired
-    public ParticipantService(ParticipantRepository participantRepository,UserRepository userRepository,ProfileRepository profileRepository,StructureRepository structureRepository) {
+    public ParticipantService(ParticipantRepository participantRepository,UserRepository userRepository) {
         this.participantRepository = participantRepository;
-        this.userRepository = userRepository;
-        this.profileRepository = profileRepository;
-        this.structureRepository = structureRepository;
+      this.userRepository = userRepository;
     }
 
     public ParticipantDto  createParticipant(ParticipantDto participant) {
-        if(!profileRepository.existsByProfileType(participant.getProfile())){
-            throw new ProfileNotFoundException("Profile type "+ participant.getProfile()+" not supported");
-        }
-        if(!structureRepository.existsByStructureName(participant.getStructure())){
-            throw new StructureNotFoundException("Structure "+participant.getStructure() +" name not supported");
-        }
         User user=userRepository.save(UserMapper.toEntity(participant.getUser()));
         Participant newParticipant = Participant.builder()
                 .participantId(user.getUserId())
                 .user(user)
-                .profile(participant.getProfile())
-                .structure(participant.getStructure())
+                .profile(ProfileMapper.toEntity(participant.getProfile()))
+                .structure(StructureMapper.toEntity(participant.getStructure()))
                 .build();
         return  ParticipantMapper.toDto(participantRepository.save(newParticipant));
 
@@ -63,21 +57,15 @@ public class ParticipantService {
     }
     @Transactional
     public ParticipantDto updateParticipant(ParticipantDto participant) {
-        if(!profileRepository.existsByProfileType(participant.getProfile())){
-            throw new ProfileNotFoundException("Profile type "+ participant.getProfile()+" not supported");
-        }
-        if(!structureRepository.existsByStructureName(participant.getStructure())){
-            throw new StructureNotFoundException("Structure "+participant.getStructure() +" name not supported");
-        }
         User user = userRepository.save(UserMapper.toEntity(participant.getUser()));
         Participant newParticipant = Participant.builder()
                 .participantId(participant.getParticipantId())
                 .user(user)
-                .profile(participant.getProfile())
-                .structure(participant.getStructure())
+                .profile(ProfileMapper.toEntity(participant.getProfile()))
+                .structure(StructureMapper.toEntity(participant.getStructure()))
                 .build();
 
-        return  ParticipantMapper.toDto(participantRepository.save(newParticipant));
+       return  ParticipantMapper.toDto(participantRepository.save(newParticipant));
 
     }
 

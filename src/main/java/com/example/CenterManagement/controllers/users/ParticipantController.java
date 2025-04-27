@@ -3,6 +3,8 @@ package com.example.CenterManagement.controllers.users;
 import com.example.CenterManagement.annotations.users.CheckInCache;
 import com.example.CenterManagement.annotations.users.UpdateUserInCache;
 import com.example.CenterManagement.dto.user.ParticipantDto;
+import com.example.CenterManagement.dto.user.ProfileDto;
+import com.example.CenterManagement.dto.user.StructureDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.BadRequestException;
@@ -10,6 +12,8 @@ import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.requestData.ParticipantRequestData;
 import com.example.CenterManagement.services.users.EmailService;
 import com.example.CenterManagement.services.users.ParticipantService;
+import com.example.CenterManagement.services.users.ProfileService;
+import com.example.CenterManagement.services.users.StructureService;
 import com.example.CenterManagement.utils.RandomPasswordGenerator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,10 +36,14 @@ import java.util.List;
 public class ParticipantController {
     private final ParticipantService participantService;
     private final EmailService emailService;
+    private final StructureService structureService;
+    private final ProfileService profileService;
     @Autowired
-    public ParticipantController(ParticipantService participantService,EmailService emailService) {
+    public ParticipantController(ParticipantService participantService,EmailService emailService,StructureService structureService,ProfileService profileService) {
         this.participantService = participantService;
         this.emailService = emailService;
+        this.structureService = structureService;
+        this.profileService = profileService;
     }
 
     @Operation(
@@ -92,6 +100,8 @@ public class ParticipantController {
         if (data == null || data.getEmail() == null || data.getUsername() == null) {
             throw new BadRequestException("Provided participant data is null or empty");
         }
+        StructureDto structure = structureService.getStructure(data.getStructureId());
+        ProfileDto profile= profileService.getProfileById(data.getProfileId());
         String password = RandomPasswordGenerator.generateRandomPassword();
         UserDto user = UserDto.builder()
                 .email(data.getEmail())
@@ -106,8 +116,8 @@ public class ParticipantController {
                 .build();
         ParticipantDto participantDto = ParticipantDto.builder()
                 .user(user)
-                .structure(data.getStructure())
-                .profile(data.getProfile())
+                .structure(structure)
+                .profile(profile)
                 .build();
         ParticipantDto participant = participantService.createParticipant(participantDto);
         emailService.sendSimpleEmail(user.getEmail(), "An account with this email have been created",password);
@@ -141,6 +151,7 @@ public class ParticipantController {
         if (participant == null) {
             throw new UserNotFoundException("User not found");
         }
+
         UserDto oldUser = participant.getUser();
         UserDto newUser = UserDto.builder()
                 .username(data.getUsername() != null ? data.getUsername() : oldUser.getUsername())
@@ -158,8 +169,8 @@ public class ParticipantController {
         ParticipantDto newParticipant = ParticipantDto.builder()
                 .participantId(participant.getParticipantId())
                 .user(newUser)
-                .structure(data.getStructure() != null ? data.getStructure() : participant.getStructure())
-                .profile(data.getProfile() != null ? data.getProfile() : participant.getProfile())
+                .structure(data.getStructureId() != null ? structureService.getStructure(data.getStructureId()) : participant.getStructure())
+                .profile(data.getProfileId() != null ? profileService.getProfileById(data.getProfileId()) : participant.getProfile())
                 .build();
         ParticipantDto participantDto = participantService.updateParticipant(newParticipant);
         return new ResponseEntity<>(participantDto, HttpStatus.OK);

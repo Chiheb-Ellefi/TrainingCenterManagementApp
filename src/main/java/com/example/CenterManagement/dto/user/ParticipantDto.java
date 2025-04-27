@@ -32,7 +32,7 @@ public class ParticipantDto {
             example = "FitLife Gym",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private String structure;
+    private StructureDto structure;
 
     @NotBlank(message = "Profile cannot be blank")
     @Schema(
@@ -40,5 +40,5 @@ public class ParticipantDto {
             example = "Fitness Enthusiast",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private String profile;
+    private ProfileDto profile;
 }
