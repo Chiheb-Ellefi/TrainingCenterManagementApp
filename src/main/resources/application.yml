@@ -1,0 +1,71 @@
+
+spring:
+  application:
+    name: CenterManagement
+    offset: 10
+    #redis keys ttl
+    ttl: 120
+  #datasource config
+  datasource:
+    url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres
+    username: postgres.hnkqawkynropwthullll
+    password: despacito123
+    driver-class-name: org.postgresql.Driver
+  #hibernate config
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  #redis config
+  data:
+    redis:
+      username: default
+      port: 15941
+      password: 1GcwEcoAa1AGt62hcpzxKmyIj3NNldgR
+      host: redis-15941.c250.eu-central-1-1.ec2.redns.redis-cloud.com
+  #security config
+  security:
+    user:
+      name: user
+      password: user
+  #mail server config
+  mail:
+    host: smtp-relay.brevo.com
+    port: 587
+    username: chihebellefi111@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    password: FZrEvjpXqV4J1th8
+#server config
+server:
+  port: 5000
+#swagger config
+springdoc:
+  api-docs:
+    enabled: true
+#JWT config
+jwt:
+  secret: krOTDgSoVxe2xRP6QrGzVCuldrCRhnuB
+  expiration: 3600000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

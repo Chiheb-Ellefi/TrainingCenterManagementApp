@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .email-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+        .email-body {
+            margin-top: 20px;
+        }
+        .email-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <h2>Welcome to Our Platform!</h2>
+    </div>
+    <div class="email-body">
+        <p>Hello,</p>
+        <p>Thank you for registering with us. You have successfully registered with the email address: <strong>{{email}}</strong>.</p>
+        <p>This is an auto-generated password for your account: <strong>{{password}}</strong></p>
+        <p>You can change your password at any time from your account settings on the platform.</p>
+    </div>
+    <div class="email-footer">
+        <p>Best regards,</p>
+        <p>Training Center</p>
+    </div>
+</div>
+</body>
+</html>
