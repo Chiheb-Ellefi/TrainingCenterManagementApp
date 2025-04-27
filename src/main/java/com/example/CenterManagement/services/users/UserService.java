@@ -1,6 +1,7 @@
 package com.example.CenterManagement.services.users;
 
 import com.example.CenterManagement.dto.user.UserDto;
+import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.users.UserRepository;
@@ -70,5 +71,9 @@ public class UserService {
     }
     public Boolean isResetCodeValid(String email, String resetCode) {
         return userCacheRepository.resetCodeIsValid(email,resetCode);
+    }
+
+    public List<UserDto> getUsersByRole(Role role) {
+        return userRepository.findAllByRole(role).stream().map((UserMapper::toDto)).collect(Collectors.toList());
     }
 }

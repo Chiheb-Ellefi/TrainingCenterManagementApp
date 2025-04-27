@@ -30,4 +30,7 @@ public class EmployerService {
         }
         employerRepository.deleteById(id);
     }
+    public EmployerDto getEmployerById(long id) {
+        return EmployerMapper.toDto(employerRepository.findById(id).orElseThrow(() -> new EmployerNotFoundException("Employer with id " + id + " does not exist")));
+    }
 }

@@ -6,6 +6,7 @@ import com.example.CenterManagement.entities.user.Trainer;
 import com.example.CenterManagement.entities.user.User;
 import com.example.CenterManagement.exceptions.users.EmployerNotFoundException;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
+import com.example.CenterManagement.mappers.user.EmployerMapper;
 import com.example.CenterManagement.mappers.user.TrainerMapper;
 import com.example.CenterManagement.mappers.user.UserMapper;
 import com.example.CenterManagement.repositories.users.EmployerRepository;
@@ -43,15 +44,12 @@ public class TrainerService {
     }
     @Transactional
     public TrainerDto  createTrainer(TrainerDto trainerDto) {
-        if(!employerRepository.existsBYEmployerName(trainerDto.getEmployerName())){
-            throw new EmployerNotFoundException("Employer with name: "+trainerDto.getEmployerName()+" does not exist");
-        }
         User savedUser=userRepository.save(UserMapper.toEntity(trainerDto.getUser()));
         Trainer trainer=Trainer.builder()
                 .trainerId(savedUser.getUserId())
                 .user(savedUser)
                 .trainerType(trainerDto.getTrainerType())
-                .employerName(trainerDto.getEmployerName())
+                .employer(EmployerMapper.toEntity(trainerDto.getEmployer()))
                 .build();
        Trainer savedTrainer= trainerRepository.save(trainer);
        return TrainerMapper.toDto(savedTrainer);
@@ -61,15 +59,13 @@ public class TrainerService {
         if( !trainerRepository.existsById(trainerDto.getTrainerId())) {
             throw new UserNotFoundException("Trainer id not found");
         }
-        if(!employerRepository.existsBYEmployerName(trainerDto.getEmployerName())){
-            throw new EmployerNotFoundException("Employer with name: "+trainerDto.getEmployerName()+" does not exist");
-        }
+
         User savedUser=userRepository.save(UserMapper.toEntity(userDto));
         Trainer trainer=Trainer.builder()
                 .trainerId(trainerDto.getTrainerId())
                 .user(savedUser)
                 .trainerType(trainerDto.getTrainerType())
-                .employerName(trainerDto.getEmployerName())
+                .employer(EmployerMapper.toEntity(trainerDto.getEmployer()))
                 .build();
         Trainer savedTrainer= trainerRepository.save(trainer);
         return TrainerMapper.toDto(savedTrainer);

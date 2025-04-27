@@ -10,7 +10,7 @@ public class TrainerMapper {
                 .trainerId(trainer.getTrainerId())
                 .user(UserMapper.toDto(trainer.getUser()))
                 .trainerType(trainer.getTrainerType())
-                .employerName(trainer.getEmployerName())
+                .employer(EmployerMapper.toDto(trainer.getEmployer()))
                 .build();
     }
     public static TrainerDto toLightDto(Trainer trainer) {
@@ -18,7 +18,7 @@ public class TrainerMapper {
                 .trainerId(trainer.getTrainerId())
                 .user(UserMapper.toLightDto(trainer.getUser()))
                 .trainerType(trainer.getTrainerType())
-                .employerName(trainer.getEmployerName())
+                .employer(EmployerMapper.toDto(trainer.getEmployer()))
                 .build();
     }
     public static Trainer toEntity(TrainerDto trainerDto) {
@@ -26,7 +26,7 @@ public class TrainerMapper {
                 .trainerId(trainerDto.getTrainerId())
                 .user(UserMapper.toEntity(trainerDto.getUser()))
                 .trainerType(trainerDto.getTrainerType())
-                .employerName(trainerDto.getEmployerName())
+                .employer(EmployerMapper.toEntity(trainerDto.getEmployer()))
                 .build();
     }
     public static TrainerDto toLightestDto(Trainer trainer) {

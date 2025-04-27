@@ -89,5 +89,5 @@ public class TrainerRequestData {
             example = "FitLife Gym",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private String employerName;
+    private Long employerId;
 }

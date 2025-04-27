@@ -6,6 +6,8 @@ import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.dto.user.ParticipantDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
+import com.example.CenterManagement.entities.user.Role;
+import com.example.CenterManagement.entities.user.User;
 import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.requestData.UserRequestData;
 import com.example.CenterManagement.services.training.TrainingEnrollmentService;
@@ -194,6 +196,12 @@ public class UserController {
         }
         List<TrainingDto> enrollments=trainingEnrollmentService.getParticipantsEnrollment(id);
         return ResponseEntity.ok(enrollments);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllManagers()  {
+        List<UserDto> managers=userService.getUsersByRole(Role.MANAGER);
+        return ResponseEntity.ok(managers);
     }
 
 

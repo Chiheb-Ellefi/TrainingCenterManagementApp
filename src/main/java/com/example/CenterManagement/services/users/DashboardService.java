@@ -2,7 +2,7 @@ package com.example.CenterManagement.services.users;
 
 import com.example.CenterManagement.entities.user.Gender;
 import com.example.CenterManagement.entities.user.TrainerType;
-import com.example.CenterManagement.models.OtherDetails;
+import com.example.CenterManagement.models.dashboardData.OtherDetails;
 import com.example.CenterManagement.models.dashboardData.*;
 import com.example.CenterManagement.repositories.training.TrainingParticipantsRepository;
 import com.example.CenterManagement.repositories.training.TrainingRepository;
@@ -13,7 +13,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Transactional
@@ -45,7 +47,8 @@ public TrainingsDetails getTrainingsDetails(){
     trainingParticipantsRepository.getAllTrainingIds().forEach(trainingId -> {
         income.set(income.get() + trainingParticipantsRepository.getIncomePerTraining(trainingId));
     });
-   return TrainingsDetails.builder().nbTrainings(nbTrainings).totalIncome(income.get()).build();
+    List<DomainCount>  trainingsPerDomain=trainingRepository.getTrainingsPerDomain();
+   return TrainingsDetails.builder().nbTrainings(nbTrainings).trainingsPerDomain(trainingsPerDomain).totalIncome(income.get()).build();
 
 }
 public TrainersDetails getTrainersDetails(){

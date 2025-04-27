@@ -1,7 +1,6 @@
 package com.example.CenterManagement.dto.user;
 
 import com.example.CenterManagement.entities.user.TrainerType;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -46,5 +45,5 @@ public class TrainerDto {
             example = "FitLife Gym",
             requiredMode = Schema.RequiredMode.REQUIRED
     )
-    private String employerName;
+    private EmployerDto employer;
 }

@@ -3,6 +3,7 @@ package com.example.CenterManagement.controllers.users;
 import com.example.CenterManagement.annotations.users.CheckInCache;
 import com.example.CenterManagement.annotations.users.UpdateUserInCache;
 import com.example.CenterManagement.dto.training.TrainingDto;
+import com.example.CenterManagement.dto.user.EmployerDto;
 import com.example.CenterManagement.dto.user.TrainerDto;
 import com.example.CenterManagement.dto.user.UserDto;
 import com.example.CenterManagement.entities.user.Role;
@@ -11,6 +12,7 @@ import com.example.CenterManagement.exceptions.users.UserNotFoundException;
 import com.example.CenterManagement.models.requestData.TrainerRequestData;
 import com.example.CenterManagement.services.training.TrainingService;
 import com.example.CenterManagement.services.users.EmailService;
+import com.example.CenterManagement.services.users.EmployerService;
 import com.example.CenterManagement.services.users.TrainerService;
 import com.example.CenterManagement.utils.RandomPasswordGenerator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,10 +38,12 @@ public class TrainerController {
     private final TrainerService trainerService;
     private final EmailService emailService;
     private final TrainingService trainingService;
+    private final EmployerService employerService;
     @Autowired
-    public TrainerController(TrainerService trainerService,EmailService emailService,TrainingService trainingService) {
+    public TrainerController(TrainerService trainerService,EmailService emailService,TrainingService trainingService,EmployerService employerService) {
         this.trainerService = trainerService;
         this.emailService = emailService;
+        this.employerService=employerService;
         this.trainingService = trainingService;
     }
 
@@ -98,6 +102,11 @@ public class TrainerController {
         if (data == null) {
             throw new BadRequestException("The provided trainer is null");
         }
+
+        if(data.getEmployerId()==null){
+            throw new BadRequestException("The provided employer id is null");
+        }
+        EmployerDto employer=employerService.getEmployerById(data.getEmployerId());
         String password = RandomPasswordGenerator.generateRandomPassword();
         UserDto userDto = UserDto.builder()
                 .username(data.getUsername())
@@ -113,7 +122,7 @@ public class TrainerController {
         TrainerDto trainerDto = TrainerDto.builder()
                 .user(userDto)
                 .trainerType(data.getTrainerType())
-                .employerName(data.getEmployerName())
+                .employer(employer)
                 .build();
         TrainerDto trainer = trainerService.createTrainer(trainerDto);
         emailService.sendSimpleEmail(userDto.getEmail(), "An account with this email have been created",password);
@@ -147,6 +156,7 @@ public class TrainerController {
         if (oldTrainer == null) {
             throw new UserNotFoundException("Trainer not found");
         }
+
         UserDto oldUser = oldTrainer.getUser();
         UserDto newUser = UserDto.builder()
                 .username(data.getUsername() != null ? data.getUsername() : oldUser.getUsername())
@@ -164,7 +174,7 @@ public class TrainerController {
                 .trainerId(oldTrainer.getTrainerId())
                 .user(oldUser)
                 .trainerType(data.getTrainerType() != null ? data.getTrainerType() : oldTrainer.getTrainerType())
-                .employerName(data.getEmployerName() != null ? data.getEmployerName() : oldTrainer.getEmployerName())
+                .employer(data.getEmployerId() != null ? employerService.getEmployerById(data.getEmployerId()): oldTrainer.getEmployer())
                 .build();
         TrainerDto trainer = trainerService.updateTrainer(newTrainer, newUser);
         return new ResponseEntity<>(trainer, HttpStatus.OK);

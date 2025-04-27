@@ -29,4 +29,7 @@ public class StructureService {
         }
         structureRepository.deleteById(id);
     }
+    public StructureDto getStructure(Long id) {
+        return StructureMapper.toDto(structureRepository.findById(id).orElseThrow(() -> new StructureNotFoundException("Structure with id: "+id+" does not exist")));
+    }
 }

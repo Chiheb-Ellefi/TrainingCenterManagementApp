@@ -1,12 +1,12 @@
 package com.example.CenterManagement.controllers.users;
 
+import com.example.CenterManagement.models.dashboardData.OtherDetails;
 import com.example.CenterManagement.models.dashboardData.ParticipantsDetails;
 import com.example.CenterManagement.models.dashboardData.TrainersDetails;
 import com.example.CenterManagement.models.dashboardData.TrainingsDetails;
 import com.example.CenterManagement.services.users.DashboardService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +35,11 @@ public class DashboardController {
     @GetMapping("/trainings")
     public ResponseEntity<TrainingsDetails> getTrainings() {
         TrainingsDetails details= dashboardService.getTrainingsDetails();
+        return ResponseEntity.ok(details);
+    }
+    @GetMapping("/others")
+    public ResponseEntity<OtherDetails> getOthers() {
+        OtherDetails details= dashboardService.getOtherDetails();
         return ResponseEntity.ok(details);
     }
 }

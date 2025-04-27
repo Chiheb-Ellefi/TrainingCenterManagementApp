@@ -1,4 +1,4 @@
-package com.example.CenterManagement.models;
+package com.example.CenterManagement.models.dashboardData;
 
 import lombok.Builder;
 import lombok.Getter;
