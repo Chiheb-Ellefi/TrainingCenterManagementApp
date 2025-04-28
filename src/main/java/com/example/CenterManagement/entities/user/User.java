@@ -32,7 +32,7 @@ public class User {
     private Date dateOfBirth;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @Column(length = 500)
+    @Column(length = 800)
     private String profilePicture;
     private String description;
 
