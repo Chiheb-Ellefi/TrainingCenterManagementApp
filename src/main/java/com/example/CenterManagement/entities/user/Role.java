@@ -7,6 +7,7 @@ public enum Role {
     @JsonProperty("MANAGER")    MANAGER,
     @JsonProperty("PARTICIPANT")   PARTICIPANT,
     @JsonProperty("TRAINER")   TRAINER,
+    @JsonProperty("SIMPLE") SIMPLE,
 
 }
 
