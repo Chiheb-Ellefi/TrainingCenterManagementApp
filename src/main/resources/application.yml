@@ -8,7 +8,7 @@ spring:
   #datasource config
   datasource:
     url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres
-    username: postgres.hnkqawkynropwthullll
+    username: postgres.vkrxgxraeattruamzhiw
     password: despacito123
     driver-class-name: org.postgresql.Driver
   #hibernate config
@@ -17,7 +17,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
   #redis config
   data:
