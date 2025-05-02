@@ -67,9 +67,9 @@ public class WebSecurityConfig {
                                         "/v3/api-docs/**"
                                 ).permitAll()
                                 .requestMatchers("/api/v1/participants/**")
-                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/trainers/**")
-                                .hasAnyRole(Role.PARTICIPANT.name(),Role.TRAINER.name(),Role.ADMIN.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(),Role.TRAINER.name(),Role.ADMIN.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/employers/**")
                                 .hasAnyRole(Role.ADMIN.name(),Role.TRAINER.name())
                                 .requestMatchers("/api/v1/dashboard/**")
@@ -81,13 +81,13 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/v1/users/**")
                                 .hasAnyRole( Role.ADMIN.name())
                                 .requestMatchers("/api/v1/trainingsEnrollment/**")
-                                .hasAnyRole( Role.ADMIN.name())
+                                .hasAnyRole( Role.ADMIN.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/domains/**")
                                 .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name())
                                 .requestMatchers("/api/v1/trainings/**")
-                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/auth/logout")
-                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.MANAGER.name(),Role.TRAINER.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.MANAGER.name(),Role.TRAINER.name(),Role.SIMPLE.name())
                                 .anyRequest().authenticated()
                 );
 

@@ -2,10 +2,12 @@ package com.example.CenterManagement.controllers.training;
 
 import com.example.CenterManagement.annotations.training.CheckInCache;
 import com.example.CenterManagement.annotations.training.UpdateTrainingInCache;
+import com.example.CenterManagement.dto.training.DomainDto;
 import com.example.CenterManagement.dto.training.TrainingDto;
 import com.example.CenterManagement.exceptions.BadRequestException;
 import com.example.CenterManagement.exceptions.trainings.TrainingNotFoundException;
 import com.example.CenterManagement.models.requestData.TrainingRequestData;
+import com.example.CenterManagement.services.training.DomainService;
 import com.example.CenterManagement.services.training.TrainingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,10 +29,11 @@ import java.util.List;
 @RequestMapping("/api/v1/trainings")
 public class TrainingController {
     private final TrainingService trainingService;
-
+    private final DomainService domainService;
     @Autowired
-    public TrainingController(TrainingService trainingService) {
+    public TrainingController(TrainingService trainingService, DomainService domainService) {
         this.trainingService = trainingService;
+        this.domainService = domainService;
     }
 
     @Operation(
@@ -90,7 +93,7 @@ public class TrainingController {
         if (data == null) {
             throw new BadRequestException("Request data cannot be null");
         }
-
+        DomainDto domain=domainService.getDomain(data.getDomainId());
         TrainingDto trainingDto = TrainingDto.builder()
                 .title(data.getTitle())
                 .startDate(data.getStartDate())
@@ -101,7 +104,7 @@ public class TrainingController {
                 .endTime(data.getEndTime())
                 .startTime(data.getStartTime())
                 .price(data.getPrice())
-                .domainName(data.getDomainName())
+                .domain(domain)
                 .build();
 
         TrainingDto savedTraining = trainingService.createTraining(trainingDto, data.getTrainerId());
@@ -145,7 +148,7 @@ public class TrainingController {
                 .startDate(data.getStartDate() != null ? data.getStartDate() : oldTraining.getStartDate())
                 .endDate(data.getEndDate() != null ? data.getEndDate() : oldTraining.getEndDate())
                 .description(data.getDescription() != null ? data.getDescription() : oldTraining.getDescription())
-                .domainName(data.getDomainName() != null ? data.getDomainName() : oldTraining.getDomainName())
+                .domain(data.getDomainId() != null ? domainService.getDomain(data.getDomainId()): oldTraining.getDomain())
                 .startTime(data.getStartTime() != null ? data.getStartTime() : oldTraining.getStartTime())
                 .endTime(data.getEndTime() != null ? data.getEndTime() : oldTraining.getEndTime())
                 .price(data.getPrice() != null ? data.getPrice() : oldTraining.getPrice())
