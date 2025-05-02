@@ -3,7 +3,6 @@ package com.example.CenterManagement.config;
 import com.example.CenterManagement.entities.user.Role;
 import com.example.CenterManagement.security.AuthEntryPointJwt;
 import com.example.CenterManagement.security.AuthTokenFilter;
-import com.example.CenterManagement.services.users.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -71,19 +70,19 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/v1/trainers/**")
                                 .hasAnyRole(Role.PARTICIPANT.name(),Role.TRAINER.name(),Role.ADMIN.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/employers/**")
-                                .hasAnyRole(Role.ADMIN.name(),Role.TRAINER.name())
+                                .hasAnyRole(Role.ADMIN.name(),Role.TRAINER.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/dashboard/**")
                                 .hasAnyRole( Role.ADMIN.name(),Role.MANAGER.name())
                                 .requestMatchers("/api/v1/profiles/**")
-                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/structures/**")
-                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/users/**")
                                 .hasAnyRole( Role.ADMIN.name())
                                 .requestMatchers("/api/v1/trainingsEnrollment/**")
                                 .hasAnyRole( Role.ADMIN.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/domains/**")
-                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name())
+                                .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/trainings/**")
                                 .hasAnyRole(Role.PARTICIPANT.name(), Role.ADMIN.name(),Role.TRAINER.name(),Role.SIMPLE.name())
                                 .requestMatchers("/api/v1/auth/logout")
