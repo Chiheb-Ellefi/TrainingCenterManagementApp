@@ -5,6 +5,7 @@ import com.example.CenterManagement.entities.user.Role;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtUtils {
     @Value("${jwt.secret}")
     private String  jwtSecret;
@@ -58,17 +60,20 @@ public class JwtUtils {
                     .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(token);
+            log.debug("JWT token validated successfully");
             return true;
         } catch (SecurityException e) {
-            System.out.println("Invalid JWT signature: " + e.getMessage());
+            log.error("Invalid JWT signature - possible token tampering: {}", e.getMessage());
         } catch (MalformedJwtException e) {
-            System.out.println("Invalid JWT token: " + e.getMessage());
+            log.error("Malformed JWT token - invalid structure: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            System.out.println("JWT token is expired: " + e.getMessage());
+            log.warn("Expired JWT token for user: {}", e.getClaims().getSubject());
         } catch (UnsupportedJwtException e) {
-            System.out.println("JWT token is unsupported: " + e.getMessage());
+            log.error("Unsupported JWT token: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            System.out.println("JWT claims string is empty: " + e.getMessage());
+            log.error("JWT claims string is empty or null: {}", e.getMessage());
+        } catch (Exception e) {
+            log.error("Unexpected error validating JWT token: {}", e.getMessage(), e);
         }
         return false;
     }
